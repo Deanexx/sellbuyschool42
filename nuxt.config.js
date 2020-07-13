@@ -16,8 +16,8 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+   //  titleTemplate: '%s - ' + process.env.npm_package_name,
+    title: 'School42_sellbuy',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -32,6 +32,16 @@ export default {
   */
   css: [
   ],
+  loading: {
+    color: 'ff7fac',
+    height: '2px',
+    duration: 5000
+  },
+  loadingIndicator: {
+    name: 'folding-cube',
+    color: 'ff7fac',
+    background: 'black'
+  },
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
@@ -77,7 +87,8 @@ export default {
       auth: {
         persistence: 'local',
         initialize: {
-          // onAuthStateChangedAction: 'onAuthStateChanged'
+          //onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION'
+          onAuthStateChangedAction: 'onAuthStateChanged'
         },
         ssr: true
       },
@@ -130,6 +141,9 @@ export default {
           success: colors.green.accent3
         }
       }
+    },
+    defaultAssets: {
+      icons: 'fa' // sets font-awesome from CDN tho
     }
   },
   /*
