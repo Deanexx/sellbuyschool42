@@ -3,12 +3,9 @@
     <div class="overlay" @click="$store.commit('logReg/reg')"></div>
     <v-container
       fluid
-      fill-height>
-      <v-row
-        align="center"
-        justify="center">
-        <v-col cols="3">
-          <v-card>
+      fill-height
+      class='d-flex justify-center align-center'>
+          <v-card width='300'>
             <v-card-title>
               <p>Register</p>
             </v-card-title>
@@ -45,8 +42,6 @@
               </v-form>
             </v-card-text>
           </v-card>
-        </v-col>
-      </v-row>
     </v-container>
   </div>
 </template>

@@ -131,6 +131,7 @@ export default {
       dark: true,
       themes: {
         dark: {
+          vuetify_blue: '#061321',
           some: '#ff72fc',
           primary: '#ff7fac',
           accent: colors.grey.darken3,

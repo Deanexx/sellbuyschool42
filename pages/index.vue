@@ -21,9 +21,6 @@ export default {
         alert(e);
       }
     }
-  },
-  mounted(){
-    //this.readFromRealtimeDb();
   }
 }
 </script>

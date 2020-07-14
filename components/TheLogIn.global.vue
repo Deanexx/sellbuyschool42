@@ -2,30 +2,29 @@
   <div class="form__inner">
       <div class="overlay" @click="$store.commit('logReg/logIn')"></div>
       <v-container
+        class='d-flex justify-center align-center'
         fill-height
         fluid>
-        <v-row
-          align="center"
-          justify="center">
-          <v-col cols="3">
-            <v-card>
-              <v-card-title>
-                Log in
-              </v-card-title>
-              <v-card-text>
-                <v-text-field placeholder="Email"
-                              v-model="logIn"/>
-                <v-text-field placeholder="Password"
-                              v-model="password"/>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="success"
-                       class="mx-auto"
-                       @click="signIn">Log me in</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+        <v-card width='300'>
+          <v-card-title>
+            Log in
+          </v-card-title>
+          <v-card-text>
+            <v-text-field placeholder="Email"
+                          outlined
+                          dense
+                          v-model="logIn"/>
+            <v-text-field placeholder="Password"
+                          outlined
+                          dense
+                          v-model="password"/>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="success"
+                    class="mx-auto"
+                    @click="signIn">Log me in</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-container>
   </div>
 </template>
