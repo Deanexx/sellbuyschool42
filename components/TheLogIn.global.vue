@@ -17,6 +17,7 @@
             <v-text-field placeholder="Password"
                           outlined
                           dense
+                          type="password"
                           v-model="password"/>
           </v-card-text>
           <v-card-actions>
