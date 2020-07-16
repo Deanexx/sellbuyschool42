@@ -5,13 +5,13 @@
         <v-card>
           <v-card-title>Adding listing</v-card-title>
           <v-card-text>
+          <!-- Title -->  
             <v-row>
               <v-col cols='2' class=''>
                 <p>Title</p>
               </v-col>
               <v-col cols='10'>
                 <v-text-field
-                  :error="!formValues.title.valid"
                   v-model='formValues.title.value'
                   dense
                   outlined
@@ -24,6 +24,7 @@
                 </v-text-field>
               </v-col>
             </v-row>
+          <!-- Price --> 
             <v-row>
               <v-col cols='2' class=''>
                 <p>Price</p>
@@ -36,10 +37,13 @@
                   maxlength='4'
                   background-color='vuetify_blue'
                   prefix='$'
-                  required>
+                  required
+                  @input="check_post('price', $event)"
+                  >
                 </v-text-field>
               </v-col>
             </v-row>
+          <!-- Desc --> 
             <v-row>
               <v-col cols='2' class=''>
                 <p>Describtion</p>
@@ -53,16 +57,19 @@
                   height='200'
                   counter='350'
                   maxlength='350'
+                  @input="check_post('desc', $event)"
                   required>
                 </v-textarea>
               </v-col>
             </v-row>
+          <!-- Category -->
             <v-row>
               <v-col cols='2'>
                 <p>Category</p>
               </v-col>
               <v-col cols='3'>
                 <v-select
+                  v-model='formValues.category.value'
                   outlined
                   background-color='vuetify_blue'
                   dense
@@ -71,27 +78,36 @@
                 </v-select>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col cols='2'>
-                <p>File</p>
-              </v-col>
-              <v-col cols='10'>
-                <v-file-input
-                  outlined
-                  dense
-                  background-color='vuetify_blue'
-                  prepend-icon='far fa-folder-open'
-                  chips
-                  >
-                  </v-file-input>
-              </v-col>
-            </v-row>
+          <!-- File -->
+          <v-row>
+            <v-col cols='2'>
+              <p>File</p>
+            </v-col>
+            <v-col cols='2'>
+              <input type="file" 
+                hidden 
+                multiple 
+                ref='files' 
+                @change='listfiles'
+              >
+            <v-btn @click='$refs.files.click()'>Add pictures</v-btn>
+            </v-col>
+              <v-chip
+                  v-for='(file, i) in formValues.files.value'
+                  :key='file.name'
+                  close
+                  @click:close='removeChip(i)'>
+                  {{ file.name }}
+              </v-chip>
+          </v-row>
           </v-card-text>
           <v-card-actions>
             <v-btn class='mx-auto'
-                   color='success'
-                   :disabled='post_validation'
-                   >Publish!</v-btn>
+            color='success'
+            :disabled='isValid'
+            @click='add_post'>
+              Publish!
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -107,41 +123,36 @@
         formValues: {
           title: {
             value: '',
-            validation: /^[A-Za-z0-9!@$%&*(()_+-=]{3,128}$/,
+            validation: /^[\sA-Za-z0-9!@$%&*()_+.,':"-=]{3,128}$/,
             valid: false
           },
           price: {
             value: '',
-            validation: /^\d{0, 5}$/,
+            validation: /^[\d]{1,4}$/,
             valid: false
           },
           desc: {
             value: '',
-            validation: /^[!@#$%^&*()?]\w\s\d{0, 350}$/,
+            validation: /^[\w\s\d!@$%&*()_+.,':"-=]{3,350}$/,
             valid: false
           },
-          file: {
-            value: ''
+          files: {
+            value: []
           },
           category: {
-            value: ''
+            value: 'Other'
           }
         }
       }
     },
     computed: {
-      post_validation()
+      isValid()
       {
-
-        //console.log(Object.values(this.formValues).forEach(el => el.valid === false ? return true : return false));
-        Object.values(this.formValues).forEach(el => { if(el.valid === false) return false });
-        return true;
-       /* for(let key in this.formValues)
-        {
-          if(this.formValues[key].valid === false)
-            return false;
+          for(let key in this.formValues){
+            if(this.formValues[key].valid === false)
+              return true;
         }
-        return true;*/
+        return false;
       }
     },
     methods: {
@@ -151,11 +162,21 @@
         field.validation.test(event) ? field.valid = true : field.valid = false;
       },
       add_post(){
+        
+      },
+      listfiles () {
+        this.formValues.files.value = [];
 
+        for(let i = 0; i < this.$refs.files.files.length; i++)
+        {
+          this.formValues.files.value.push(this.$refs.files.files[i]);
+        }
+      },
+      removeChip(key){
+        this.formValues.files.value.splice(key, 1);
       }
     }
   }
 </script>
 <style>
-
 </style>
