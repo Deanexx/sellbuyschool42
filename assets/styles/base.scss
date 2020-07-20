@@ -1,3 +1,7 @@
+.v-card__text, .v-card__title {
+  word-break: normal !important;
+}
+
 @font-face{
   src:url('~assets/fonts/Studio-Gothic-Alternate-Regular-trial.ttf');
   font-family: 'Marvin';
@@ -7,10 +11,12 @@
   from {
     transform: translate3d(0, -100%, 0);
     visibility: visible;
+    opacity: 0;
   }
 
   to {
     transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 }
 
@@ -24,5 +30,36 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spinAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg)
   }
 }

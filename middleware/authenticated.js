@@ -1,4 +1,4 @@
-export default function ({store, redirect}) {
-  if(store.state.auth.userToken === null)
-    return redirect('/');
+export default function (context) {
+  if(context.store.state.auth.userToken === null)
+    return context.redirect('/');
 }

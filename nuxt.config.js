@@ -92,11 +92,7 @@ export default {
         },
         ssr: true
       },
-      firestore: {
-        memoryOnly: false,
-        static: false,
-      },
-
+      firestore: true,
       storage: true,
       realtimeDb: true,
       performance: true,

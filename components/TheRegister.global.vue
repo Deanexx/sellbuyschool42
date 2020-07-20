@@ -98,17 +98,13 @@
               this.$fireAuth.createUserWithEmailAndPassword(
                 this.registerField.email.value,
                 this.registerField.password.value)
-            .then(data => {
-              /* Saving in cloud store */
-              this.$fireStore.collection('users').doc(data.user.uid + '').set({
-                intra: this.registerField.intra.value,
-                email: this.registerField.email.value,
-                uid: data.user.uid})
-              .then(docRef => {
-                console.log(docRef)
+              .then(data => {
+                /* Saving in cloud store */
+                return this.$fireStore.collection('users').doc(data.user.uid + '').set({
+                  intra: this.registerField.intra.value,
+                  email: this.registerField.email.value,
+                  uid: data.user.uid})
               })
-              .catch(error => alert(error))
-            })
             .catch(error => alert(error))
             /* closing reg tab */
               this.$store.commit('logReg/reg');
