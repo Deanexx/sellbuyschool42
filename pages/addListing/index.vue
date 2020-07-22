@@ -180,18 +180,18 @@
 
         let form = this.formValues;
         let filePath = '';
-        let fileName = '';
         let filesName = [];
         let ref = this.$fireStorage.ref();
         let uploadedFiles = 0;
         this.formSent = true;
 
           form.files.value.forEach((el) => {
-            fileName = this.randName() + '.' + el.type.slice(6, el.type.length);
-            filePath = 'postImgs/' + fileName;
+            let fileName = this.randName();
 
-            ref.child(filePath).put(el)
+            ref.child(fileName).put(el)
             .then((data) => {
+              console.log(data.ref.getDownloadURL());
+              console.log(data)
                return new Promise((resolve) => {
                 if(data.state === 'success')
                 {
@@ -206,6 +206,7 @@
               /* Uploading data to fireStore */
 
               this.$fireStore.collection('posts').add({
+                id: '',
                 title: form.title.value,
                 price: form.price.value,
                 desc: form.desc.value,
@@ -213,8 +214,19 @@
                 files: {...filesName},
                 user: this.$store.state.auth.userToken,
                 date: new Date(),
+                urls: [],
                 views: 0,
                 status: 0
+              }).then( res => {
+                let urls = [];
+
+                filesName.forEach( el => {
+                  this.$fireStorage.ref().child('usersImgs/' + el + '_500x500').getDownloadURL()
+                    .then( url => urls.push(url))
+                })
+                this.$fireStore.collection('posts')
+                  .doc(res.id)
+                  .update({id: res.id, urls: urls});
               })
               this.formSent = false; /* Redirect watcher */
               this.$store.commit('myListings/listAddNotification'); /* Showing notification about list been added */

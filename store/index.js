@@ -5,7 +5,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  ...vuexfireMutations
+  ...vuexfireMutations,
+
 }
 
 export const actions = {
