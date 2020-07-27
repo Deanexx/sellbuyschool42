@@ -7,7 +7,7 @@
             <v-card-text>
               <!-- Title -->
               <v-row>
-                <v-col cols='2' class=''>
+                <v-col cols='2'>
                   <p>Title</p>
                 </v-col>
                 <v-col cols='10'>
@@ -26,7 +26,7 @@
               </v-row>
               <!-- Price -->
               <v-row>
-                <v-col cols='2' class=''>
+                <v-col cols='2'>
                   <p>Price</p>
                 </v-col>
                 <v-col cols='2'>
@@ -93,19 +93,21 @@
                   >
                   <v-btn @click='$refs.files.click()'>Add pictures</v-btn>
                 </v-col>
-                <v-chip
-                  v-for='(file, i) in formValues.files.value'
-                  :key='file.name'
-                  close
-                  @click:close='removeChip(i)'>
-                  {{ file.name }}
-                </v-chip>
+                <v-col cols="8">
+                  <v-chip
+                    v-for='(file, i) in formValues.files.value'
+                    :key='file.name'
+                    close
+                    @click:close='removeChip(i)'>
+                    {{ file.name }}
+                  </v-chip>
+                </v-col>
               </v-row>
             </v-card-text>
             <!-- Button -->
             <v-card-actions>
               <v-btn class='mx-auto'
-                     :loading="formSent === true"
+                     :loading="formSent"
                      color='success'
                      :disabled='isValid'
                      @click='add_post'>
@@ -129,13 +131,13 @@
     middleware: 'authenticated',
     data(){
       return {
-        formSent: null,
+        formSent: false,
         totalFiles: 2,
         slectItems: ['Cars / Motorcycles', 'Books', 'Electronics', 'Furniture', 'Other'],
         formValues: {
           title: {
             value: '',
-            validation: /^[\sA-Za-z0-9!@$%&*()_+.,':"-=]{10,128}$/,
+            validation: /^[\sA-Za-z0-9!@$%&*()_+.,':"-=]{10,50}$/,
             valid: false
           },
           price: {
@@ -175,64 +177,58 @@
 
         field.validation.test(event) ? field.valid = true : field.valid = false;
       },
-      add_post(){
-        /* Uploading files */
-
+       add_post(){
+        /* Uploading form without files */
+        let postId = '';
+        let filesNames = [];
+        let urls = [];
         let form = this.formValues;
-        let filePath = '';
-        let filesName = [];
-        let ref = this.$fireStorage.ref();
-        let uploadedFiles = 0;
+        let filesUploaded = 0;
         this.formSent = true;
 
-          form.files.value.forEach((el) => {
-            let fileName = this.randName();
+          new Promise(resolve => {
+          this.formValues.files.value.forEach(el => {
+               let fileName = this.randName();
 
-            ref.child(fileName).put(el)
-            .then((data) => {
-              console.log(data.ref.getDownloadURL());
-              console.log(data)
-               return new Promise((resolve) => {
-                if(data.state === 'success')
-                {
-                  filesName.push(fileName);
-                  ++uploadedFiles;
-                }
-                if(uploadedFiles === form.files.value.length)
-                  resolve();
-              })
-            })
-            .then(() => {
-              /* Uploading data to fireStore */
+               this.$fireStorage.ref().child(fileName).put(el)
+                 .then(res => {
+                   return res.ref.getDownloadURL();
+                 })
+                 .then(url => {
+                   filesUploaded++;
+                   urls.push(url)
+                   filesNames.push(fileName);
+                   if(filesUploaded === this.formValues.files.value.length)
+                     resolve();
+                 });
+             })
+         })
+         .then(() => {
+           return this.$fireStore.collection('posts').add({
+             id: '',
+             title: form.title.value,
+             price: form.price.value,
+             desc: form.desc.value,
+             category: form.category.value,
+             user: this.$store.state.auth.userToken,
+             date: new Date().toDateString(),
+             urls: urls,
+             filesNames: filesNames,
+             views: 0,
+             status: true
+           })
+         })
+        .then( res => {
+           postId = res.id;
 
-              this.$fireStore.collection('posts').add({
-                id: '',
-                title: form.title.value,
-                price: form.price.value,
-                desc: form.desc.value,
-                category: form.category.value,
-                files: {...filesName},
-                user: this.$store.state.auth.userToken,
-                date: new Date(),
-                urls: [],
-                views: 0,
-                status: 0
-              }).then( res => {
-                let urls = [];
-
-                filesName.forEach( el => {
-                  this.$fireStorage.ref().child('usersImgs/' + el + '_500x500').getDownloadURL()
-                    .then( url => urls.push(url))
-                })
-                this.$fireStore.collection('posts')
-                  .doc(res.id)
-                  .update({id: res.id, urls: urls});
-              })
-              this.formSent = false; /* Redirect watcher */
-              this.$store.commit('myListings/listAddNotification'); /* Showing notification about list been added */
-            })
+           return this.$fireStore.collection('posts')
+            .doc(res.id)
+            .update({id: res.id});
         })
-
+         .then(() => {
+           this.$router.push('myListings'); /* Redirect watcher */
+           this.$store.commit('myListings/listAddNotification'); /* Showing notification about list been added */
+         })
       },
       list_files () {
         this.formValues.files.value = [];
@@ -265,10 +261,6 @@
     watch:{
       'formValues.files.value' : function(val){
         typeof val[0] === 'object' ? val.valid = true : val.valid = false;  /* Checking if there any files attached */
-      },
-      'formSent': function(){
-        if(this.formSent === false)
-          this.$router.push('myListings');
       }
     }
   }

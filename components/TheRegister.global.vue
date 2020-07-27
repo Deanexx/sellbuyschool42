@@ -130,4 +130,3 @@
     animation: slideInLeft .5s reverse;
   }
 </style>
-
