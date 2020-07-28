@@ -6,25 +6,51 @@
       fixed
       app
     >
+    <v-expand-x-transition>
+      <v-list transition="fab-transition"
+        class='rounded-b-lg'
+        v-show='listDrop'
+        style="position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translateX(-50%)">
+      <v-list-item v-for='(property, name) in selectList'
+        class='list_style'
+        :key = 'name'>
+        <v-list-item-title>{{ name }}</v-list-item-title> 
+      </v-list-item>        
+    </v-list>
+    </v-expand-x-transition>
+      <v-img src='/logos/school42.jpg'
+        max-width='40px'
+        max-height='40px'
+        contain
+        style="position: absolute;
+                top: 50%;
+                cursor: pointer;
+                left: 50%;
+                transform: translate(-50%, -50%)"
+        @click='listDrop = !listDrop'
+      />
       <v-spacer/>
-    <transition name="slideInLeft" mode="out-in">
-      <div class="header__inner__buttons"
-           v-if="authUser === null"
-           :key="1">
-        <v-btn color="primary"
-               @click="logIn_switch">ft_log</v-btn>
-        <v-btn class="ml-1"
-               color="some"
-               @click="reg_switch">ft_reg</v-btn>
-      </div>
-      <div class="header__inner__buttons"
-           v-if="authUser !== null"
-           :key="2">
-        <v-btn
-          color="secondary"
-          @click="signOut">ft_logOut</v-btn>
-      </div>
-    </transition>
+      <transition name="slideInLeft" mode="out-in">
+        <div class="header__inner__buttons"
+            v-if="authUser === null"
+            :key="1">
+          <v-btn color="primary"
+                @click="logIn_switch">ft_log</v-btn>
+          <v-btn class="ml-1"
+                color="some"
+                @click="reg_switch">ft_reg</v-btn>
+        </div>
+        <div class="header__inner__buttons"
+            v-if="authUser !== null"
+            :key="2">
+          <v-btn
+            color="secondary"
+            @click="signOut">ft_logOut</v-btn>
+        </div>
+      </transition>
     </v-app-bar>
     <v-navigation-drawer
       app
@@ -87,6 +113,26 @@ import { mapState, mapMethods } from 'vuex'
 export default {
   data(){
     return {
+      currencySelect: [{
+        text: 'Dollar',
+        value: 'USD'
+      }, 
+      {
+        text: 'Ruble',
+        value: 'RUB'
+      }, 
+      {
+        text: 'Hryvnia',
+        value: 'UAH'
+      }, 
+      {
+        text: 'Won',
+        value: 'KRW'
+      }, 
+      {
+        text: 'Peso',
+        value: 'MXN'
+      }],
       menu: [
         {
           title: 'Main',
@@ -109,13 +155,15 @@ export default {
           title: 'My listings',
           icon: 'fas fa-clipboard-list',
           to: 'myListings'
-        }]
+        }],
+        listDrop: false
     }
   },
   computed: mapState({
     regForm: state => state.logReg.regBool,
     logInForm: state => state.logReg.logInBool,
-    authUser: state => state.auth.user
+    authUser: state => state.auth.user,
+    selectList: state => state.currency.currencies
   }),
   methods:{
     logIn_switch(){
@@ -130,10 +178,19 @@ export default {
         .catch(error => alert(error));
     }
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
+
+  .list_style{
+    cursor: pointer;
+  }
+  .list_style:hover{
+          color: red !important;
+  }
+
   .header__inner{
     z-index: 1000;
   }
