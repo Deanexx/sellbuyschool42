@@ -137,6 +137,8 @@
 </template>
 
 <script>
+  import { mapState, mapMethods } from 'vuex'
+
     export default {
         name: "UpdateListing",
         props: ['post'],
@@ -171,13 +173,16 @@
             }
           }
         },
-      computed: {
-        form_validation() {
-          for (let key in this.formValues) {
-            if (this.formValues[key].valid === false) return true;
-          }
-          return false;
-        }
+      computed:
+        {
+          ...mapState({
+            form_validation() {
+              for (let key in this.formValues) {
+                if (this.formValues[key].valid === false) return true;
+              }
+              return false;
+            }
+          })
       },
       methods:{
         check_field(key, e) {

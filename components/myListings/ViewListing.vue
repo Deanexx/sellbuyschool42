@@ -38,7 +38,16 @@
             <v-card-text>{{ post.desc }}</v-card-text>
             <div class="d-flex flex-no-wrap justify-space-between">
               <v-card-subtitle>{{ post.date }}</v-card-subtitle>
-              <v-card-subtitle>{{ post.price }}</v-card-subtitle>
+              <transition name="fadeOutDown" mode="out-in">
+                <v-card-subtitle class="d-flex" :key="total">
+                  <v-icon color="primary"
+                          size="15px"
+                          class="mr-1 align-self-center"
+                          dense>
+                    {{ currencies[activeCur].sign }}</v-icon>
+                  {{ total }}
+                </v-card-subtitle>
+              </transition>
             </div>
           </v-card>
         </v-col>
@@ -48,24 +57,42 @@
 </template>
 
 <script>
-    export default {
-        name: "ViewListing",
-        props: ['post'],
-        data(){
-          return{
-            imgs: []
-          }
-        },
-        created(){
-          this.post.filesNames.forEach(el => {
-            this.$fireStorage.ref().child('thumbnails/' + el + '_500x500')
-              .getDownloadURL()
-              .then( url => this.imgs.push(url))
-          })
+    import {mapState} from "vuex";
 
-       }
+    export default {
+      name: "ViewListing",
+      props: ['post'],
+      data(){
+        return{
+          imgs: []
+        }
+      },
+      computed:{
+        ...mapState({
+          currencies: state => state.currency.currencies,
+          activeCur: state => state.currency.activeCur,
+          total(){
+            return this.post.price * this.currencies[this.activeCur].value;
+          }
+        })
+       },
+      created(){
+        this.post.filesNames.forEach(el => {
+          this.$fireStorage.ref().child('thumbnails/' + el + '_500x500')
+            .getDownloadURL()
+            .then( url => this.imgs.push(url))
+        })
+
+     }
     }
-</script
+</script>
 
 <style lang="scss" scoped>
+  .fadeOutDown-enter-active {
+    animation: fadeIn 0.5s;
+  }
+
+  .fadeOutDown-leave-active {
+    animation: fadeIn 0.5s reverse;
+  }
 </style>

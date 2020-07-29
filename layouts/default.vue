@@ -7,19 +7,25 @@
       app
     >
     <v-expand-x-transition>
-      <v-list transition="fab-transition"
-        class='rounded-b-lg'
-        v-show='listDrop'
-        style="position: absolute;
+        <v-list transition="fab-transition"
+                :flat='false'
+                :v-ripple="false"
+                class='rounded-b-lg'
+                v-show='listDrop'
+                style="position: absolute;
               top: 100%;
               left: 50%;
               transform: translateX(-50%)">
-      <v-list-item v-for='(property, name) in selectList'
-        class='list_style'
-        :key = 'name'>
-        <v-list-item-title>{{ name }}</v-list-item-title> 
-      </v-list-item>        
-    </v-list>
+          <v-list-item-group mandatory active-class="list__active__style">
+            <v-list-item v-for='(property, name) in selectList'
+                         class='list_style'
+                         :key = 'name'
+                         :ripple="false"
+                         @click="set_currency(name)">
+              <v-list-item-title>{{ name }}</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
     </v-expand-x-transition>
       <v-img src='/logos/school42.jpg'
         max-width='40px'
@@ -57,7 +63,6 @@
       permanent
       :clipped="true"
       class="rounded-br-xl"
-      src="/backgrounds/nav.png"
     >
       <v-list>
         <v-list-item-group>
@@ -116,19 +121,19 @@ export default {
       currencySelect: [{
         text: 'Dollar',
         value: 'USD'
-      }, 
+      },
       {
         text: 'Ruble',
         value: 'RUB'
-      }, 
+      },
       {
         text: 'Hryvnia',
         value: 'UAH'
-      }, 
+      },
       {
         text: 'Won',
         value: 'KRW'
-      }, 
+      },
       {
         text: 'Peso',
         value: 'MXN'
@@ -176,17 +181,20 @@ export default {
     {
       this.$fireAuth.signOut()
         .catch(error => alert(error));
+    },
+    set_currency(currency){
+      this.$store.commit('currency/set_activeCur', { currency })
     }
   }
 
 }
 </script>
 
-<style lang="scss" scoped>
-
-  .list_style{
-    cursor: pointer;
+<style scoped>
+  .list__active__style{
+     color: #ff7fac;
   }
+
   .list_style:hover{
           color: red !important;
   }

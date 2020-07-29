@@ -23,7 +23,17 @@
             <div class="d-flex flex-no-wrap justify-space-between">
               <div>
                 <v-card-title v-text="post.title"></v-card-title>
-                <v-card-subtitle v-text="post.price" class="pb-3"></v-card-subtitle>
+                <transition name="fadeOutDown" mode="out-in">
+                  <v-card-subtitle class="pb-3 d-flex" :key="activeCur">
+                    <v-icon color="primary"
+                            size="15px"
+                            class="mr-1 align-self-center"
+                            dense>
+                      {{ currencies[activeCur].sign }}</v-icon>
+                    {{ post.price * currencies[activeCur].value }}
+                  </v-card-subtitle>
+                </transition>
+
                 <v-card-actions class="pb-0 pt-0">
                   <v-btn color="info" @click='ft_view_clicked(i)'>View</v-btn>
                   <v-btn color="vuetify_blue" @click="ft_update_clicked(i)">Update</v-btn>
@@ -67,6 +77,8 @@
       ...mapState({
         userToken: state => state.auth.userToken,
         posts: state => state.posts,
+        currencies: state => state.currency.currencies,
+        activeCur: state => state.currency.activeCur,
         selectedPost(){
           if(this.postId === null) return null;
           return this.posts[this.postId];
@@ -109,6 +121,13 @@
 
   .animate__zoomIn-leave-active {
     animation: zoomIn 0.2s reverse;
+  }
+  .fadeOutDown-enter-active {
+    animation: fadeIn 0.5s;
+  }
+
+  .fadeOutDown-leave-active {
+    animation: fadeIn 0.5s reverse;
   }
 
   @keyframes slideOut {
