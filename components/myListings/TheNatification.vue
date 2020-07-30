@@ -1,8 +1,7 @@
 <template functional>
-  <v-card class="positioning" width="200px" height="200px"
+  <v-card style='z-index: 999' class="positioning" width="200px"
           color="success">
       <v-card-title class="justify-center text-wrap text-center">Post's been added!</v-card-title>
-      <v-img src="/giphts/giphy.gif"></v-img>
   </v-card>
 </template>
 <script>

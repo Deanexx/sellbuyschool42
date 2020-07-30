@@ -76,7 +76,7 @@
     computed: {
       ...mapState({
         userToken: state => state.auth.userToken,
-        posts: state => state.posts,
+        posts: state => state.userPosts,
         currencies: state => state.currency.currencies,
         activeCur: state => state.currency.activeCur,
         selectedPost(){
@@ -103,7 +103,7 @@
     },
     async created(){
       try{
-        await this.$store.dispatch('bindPosts');
+        await this.$store.dispatch('bindUserPosts');
       } catch(e) {
         console.error(e)
       }

@@ -3,24 +3,30 @@
     justify-center
     align-center
   >
+  Main page
   </v-layout>
 </template>
 <script>
 
 export default {
+  data() {
+    return {
+      posts: []
+    };
+  },
   components: {
-
+    
   },
   methods:{
-    readFromRealtimeDb(){
-      let listPath = this.$fireDb.ref('lists');
-      try{
-        listPath.on('child_added', snapshot => console.log(snapshot.val()));
-      }
-      catch(e){
-        alert(e);
-      }
-    }
+    
+  },
+  created(){
+    this.$fireStore.collection('posts')
+      .get()
+      .then(querySnapshot =>
+        querySnapshot.forEach( doc =>
+          this.posts.push(doc.data())));
+    console.log(this.posts);
   }
 }
-</script>
+</script> 
