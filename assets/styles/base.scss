@@ -2,6 +2,15 @@
   word-break: normal !important;
 }
 
+.page-enter-active, page-leave-active {
+  transition: all 0.5s;
+}
+
+.page-enter, .page-leave-active{
+  opacity: 0;
+  transform: scale(0);
+}
+
 @font-face{
   src:url('~assets/fonts/Studio-Gothic-Alternate-Regular-trial.ttf');
   font-family: 'Marvin';

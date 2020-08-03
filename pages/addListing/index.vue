@@ -1,38 +1,34 @@
 <template>
     <v-container>
-      <v-row>
-        <v-col cols='12'>
+      <v-row class="d-flex justify-center">
+        <v-col cols='8' class="">
           <v-card>
             <v-card-title>Adding listing</v-card-title>
             <v-card-text>
               <!-- Title -->
               <v-row>
-                <v-col cols='2'>
-                  <p>Title</p>
-                </v-col>
-                <v-col cols='10'>
+                <v-col cols='8'>
                   <v-text-field
                     v-model='formValues.title.value'
                     dense
                     outlined
+                    :success="formValues.title.valid"
                     background-color='vuetify_blue'
                     counter='50'
                     maxlength='50'
+                    label="Title"
                     required
                     @input="check_field('title', $event)"
                   >
                   </v-text-field>
                 </v-col>
-              </v-row>
               <!-- Price -->
-              <v-row>
-                <v-col cols='2'>
-                  <p>Price</p>
-                </v-col>
-                <v-col cols='2'>
+                <v-col cols='4'>
                   <v-text-field
                     v-model='formValues.price.value'
                     dense
+                    :success="formValues.price.valid"
+                    label="Price"
                     outlined
                     maxlength='4'
                     background-color='vuetify_blue'
@@ -45,14 +41,13 @@
               </v-row>
               <!-- Desc -->
               <v-row>
-                <v-col cols='2' class=''>
-                  <p>Describtion</p>
-                </v-col>
-                <v-col cols='10'>
+                <v-col cols='12'>
                   <v-textarea
                     v-model='formValues.desc.value'
                     background-color='vuetify_blue'
                     clearable
+                    label="Description"
+                    :success="formValues.desc.valid"
                     outlined
                     height='200'
                     counter='350'
@@ -64,26 +59,22 @@
               </v-row>
               <!-- Category -->
               <v-row>
-                <v-col cols='2'>
-                  <p>Category</p>
-                </v-col>
                 <v-col cols='3'>
                   <v-select
+                    label="Category"
                     v-model='formValues.category.value'
                     outlined
+                    :success="formValues.category.valid"
                     background-color='vuetify_blue'
                     dense
-                    :items='slectItems'
+                    :items='selectItems'
                   >
                   </v-select>
                 </v-col>
               </v-row>
               <!-- File -->
               <v-row>
-                <v-col cols='2'>
-                  <p>File</p>
-                </v-col>
-                <v-col cols='2'>
+                <v-col cols='3'>
                   <input type="file"
                          hidden
                          multiple
@@ -91,15 +82,19 @@
                          ref='files'
                          @change='list_files'
                   >
-                  <v-btn @click='$refs.files.click()'>Add pictures</v-btn>
+                  <v-btn @click='$refs.files.click()'
+                         :color="formValues.files.valid ? 'success' : 'default'">Add pictures</v-btn>
                 </v-col>
-                <v-col cols="8">
+                <v-col cols="5" class="d-flex">
                   <v-chip
                     v-for='(file, i) in formValues.files.value'
                     :key='file.name'
                     close
-                    @click:close='removeChip(i)'>
-                    {{ file.name }}
+                    @click:close='removeChip(i)'
+                    class="ml-5">
+                    <template>
+                      <span style="max-width: 60px" class="text-truncate">{{ file.name}}</span>
+                    </template>
                   </v-chip>
                 </v-col>
               </v-row>
@@ -133,7 +128,7 @@
       return {
         formSent: false,
         totalFiles: 2,
-        slectItems: ['Cars / Motorcycles', 'Books', 'Electronics', 'Furniture', 'Other'],
+        selectItems: ['Cars / Motorcycles', 'Books', 'Electronics', 'Furniture', 'Other'],
         formValues: {
           title: {
             value: '',
@@ -152,7 +147,7 @@
           },
           files: {
             value: [],
-            valid: true
+            valid: false
           },
           category: {
             value: 'Other',
@@ -211,6 +206,7 @@
              desc: form.desc.value,
              category: form.category.value,
              user: this.$store.state.auth.userToken,
+             intra: this.$store.state.auth.userIntra,
              date: new Date().toDateString(),
              urls: urls,
              filesNames: filesNames,
@@ -260,7 +256,7 @@
     },
     watch:{
       'formValues.files.value' : function(val){
-        typeof val[0] === 'object' ? val.valid = true : val.valid = false;  /* Checking if there any files attached */
+        val.length <= 0 ? this.formValues.files.valid = false : this.formValues.files.valid = true;  /* Checking if there any files attached */
       }
     }
   }

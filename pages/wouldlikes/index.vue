@@ -1,13 +1,40 @@
 <template>
-
+  <v-row  class="d-flex flex-wrap justify-center">
+    <v-col cols="6">
+      <v-card v-for="wouldLike in wouldLikes"
+        class="mb-2">
+        <v-card-title class="d-flex">
+          <h1 class="primary--text title-1" >{{ wouldLike.intra }} </h1> <h4 class="body-2 align-self-end">&nbsp would like ...</h4>
+        </v-card-title>
+        <v-card-text>
+          {{ wouldLike.title }}
+        </v-card-text>
+        <v-card-subtitle>
+          {{ wouldLike.date }}
+        </v-card-subtitle>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
     export default {
-        name: "index.vue"
+        name: "index.vue",
+      middleware: 'authenticated',
+      data(){
+          return({
+            wouldLikes: []
+          })
+      },
+      created(){
+          this.$fireStore.collection('wouldLikes').get()
+          .then(snapshot => snapshot.forEach(doc => {
+            this.wouldLikes.push(doc.data());
+          }));
+          console.log(this.wouldLikes);
+      }
     }
 </script>
 
 <style scoped>
-
 </style>

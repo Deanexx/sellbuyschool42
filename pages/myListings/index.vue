@@ -17,37 +17,40 @@
     <v-container>
       <v-row  class="d-flex flex-wrap justify-center">
         <v-col cols="6">
-          <v-card v-for="(post, i) in posts"
-                  class="mb-4"
-                  :key="i">
-            <div class="d-flex flex-no-wrap justify-space-between">
-              <div>
-                <v-card-title v-text="post.title"></v-card-title>
-                <transition name="fadeOutDown" mode="out-in">
-                  <v-card-subtitle class="pb-3 d-flex" :key="activeCur">
-                    <v-icon color="primary"
-                            size="15px"
-                            class="mr-1 align-self-center"
-                            dense>
-                      {{ currencies[activeCur].sign }}</v-icon>
-                    {{ post.price * currencies[activeCur].value }}
-                  </v-card-subtitle>
-                </transition>
+          <transition-group name="fadeOutDown">
+            <v-card v-for="(post, i) in posts"
+                    class="mb-4"
+                    :key="post.id">
+              <div class="d-flex flex-no-wrap justify-space-between">
+                <div>
+                  <v-card-title v-text="post.title"></v-card-title>
+                  <transition name="fadeOutDown" mode="out-in">
+                    <v-card-subtitle class="pb-3 d-flex" :key="activeCur">
+                      <v-icon color="primary"
+                              size="15px"
+                              class="mr-1 align-self-center"
+                              dense>
+                        {{ currencies[activeCur].sign }}</v-icon>
+                      {{ (post.price * currencies[activeCur].value).toFixed(1) }}
+                    </v-card-subtitle>
+                  </transition>
 
-                <v-card-actions class="pb-0 pt-0">
-                  <v-btn color="info" @click='ft_view_clicked(i)'>View</v-btn>
-                  <v-btn color="vuetify_blue" @click="ft_update_clicked(i)">Update</v-btn>
-                  <v-btn color="error" @click="ft_delete_clicked(i)">Delete</v-btn>
-                </v-card-actions>
+                  <v-card-actions class="pb-0 pt-0">
+                    <v-btn color="info" @click='ft_view_clicked(i)'>View</v-btn>
+                    <v-btn color="vuetify_blue" @click="ft_update_clicked(i)">Update</v-btn>
+                    <v-btn color="error" @click="ft_delete_clicked(i)">Delete</v-btn>
+                  </v-card-actions>
+                </div>
+                <v-avatar
+                  tile
+                  class="rounded-sm"
+                  size="125">
+                  <v-img :src="post.urls[0]"></v-img>
+                </v-avatar>
               </div>
-              <v-avatar
-                tile
-                class="rounded-sm"
-                size="125">
-                <v-img :src="post.urls[0]"></v-img>
-              </v-avatar>
-            </div>
-          </v-card>
+            </v-card>
+          </transition-group>
+
         </v-col>
       </v-row>
     </v-container>
@@ -57,7 +60,7 @@
   import TheNatification from '~/components/myListings/TheNatification'
   import ViewListing from '~/components/myListings/ViewListing'
   import UpdateListing from '~/components/myListings/UpdateListing'
-  import { mapState, mapGetters } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     components:{

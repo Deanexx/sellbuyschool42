@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <clien-only>
+    <v-app>
     <v-app-bar
       class="header__inner"
       :clipped-left="true"
@@ -14,7 +15,7 @@
                 v-show='listDrop'
                 style="position: absolute;
               top: 100%;
-              left: 50%;
+              left: 25%;
               transform: translateX(-50%)">
           <v-list-item-group mandatory active-class="list__active__style">
             <v-list-item v-for='(property, name) in selectList'
@@ -34,7 +35,7 @@
         style="position: absolute;
                 top: 50%;
                 cursor: pointer;
-                left: 50%;
+                left: 25%;
                 transform: translate(-50%, -50%)"
         @click='listDrop = !listDrop'
       />
@@ -50,7 +51,7 @@
                 @click="reg_switch">ft_reg</v-btn>
         </div>
         <div class="header__inner__buttons"
-            v-if="authUser !== null"
+            v-else
             :key="2">
           <v-btn
             color="secondary"
@@ -82,7 +83,7 @@
         </v-list-item-group>
       </v-list>
       <transition name="slideInLeft" mode="out-in">
-        <v-list class="mt-16" v-show="authUser !== null">
+        <v-list class="mt-16" v-if="authUser !== null">
           <v-list-item-group>
             <v-list-item
               v-for="(item, i) in authMenu"
@@ -110,10 +111,11 @@
       <the-log-in v-if="logInForm && authUser == null"/>
     </transition>
   </v-app>
+  </clien-only>
 </template>
 
 <script>
-import { mapState, mapMethods } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data(){
@@ -160,7 +162,18 @@ export default {
           title: 'My listings',
           icon: 'fas fa-clipboard-list',
           to: 'myListings'
-        }],
+        },
+        {
+          title: 'Add wouldLike',
+          icon: 'fas fa-grin-stars',
+          to: 'addWouldlike'
+        },
+        {
+          title: 'My wouldLikes',
+          icon: 'fas fa-calendar-plus',
+          to: 'myWouldLikes'
+        }
+      ],
         listDrop: false
     }
   },
@@ -181,9 +194,11 @@ export default {
     {
       this.$fireAuth.signOut()
         .catch(error => alert(error));
+      this.$router.push('/');
     },
     set_currency(currency){
       this.$store.commit('currency/set_activeCur', { currency })
+      this.listDrop = false;
     }
   }
 

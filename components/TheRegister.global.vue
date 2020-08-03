@@ -5,7 +5,7 @@
       fluid
       fill-height
       class='d-flex justify-center align-center'>
-          <v-card width='300'>
+          <v-card width='300' loader-height="3" :loading="loading">
             <v-card-title>
               <p>Register</p>
             </v-card-title>
@@ -79,7 +79,8 @@
               valid: false,
               hintMassage: 'Should match with password'
             }
-          }
+          },
+        loading: false
         }
       },
     computed: mapState({
@@ -94,20 +95,20 @@
     }),
     methods: {
           register() {
+            this.loading = true;
             /* Register globally */
               this.$fireAuth.createUserWithEmailAndPassword(
                 this.registerField.email.value,
                 this.registerField.password.value)
               .then(data => {
                 /* Saving in cloud store */
-                return this.$fireStore.collection('users').doc(data.user.uid + '').set({
+                return this.$fireStore.collection('users').doc(data.user.uid).set({
                   intra: this.registerField.intra.value,
                   email: this.registerField.email.value,
                   uid: data.user.uid})
-              })
+              }).then(() => this.$store.commit('logReg/reg'))
             .catch(error => alert(error))
             /* closing reg tab */
-              this.$store.commit('logReg/reg');
           },
         field_check(i, e){
             let field = this.registerField[i];
@@ -128,5 +129,11 @@
   }
   .slideInLeft-leave-active{
     animation: slideInLeft .5s reverse;
+  }
+  .slideInDown-enter-active{
+    animation: slideInDown 0.5s;
+  }
+  .slideInDown-leave-active{
+    animation: slideInDown .5s reverse;
   }
 </style>

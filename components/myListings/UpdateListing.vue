@@ -1,6 +1,6 @@
 <template style="position: relative">
-  <v-container style="position: absolute;
-                        top: 5%;
+  <v-container style="position: fixed;
+                        top: 10%;
                         left: 50%;
                         transform: translateX(-20%);
                         z-index: 1">
@@ -81,6 +81,7 @@
                 <v-select
                   v-model="formValues.category.value"
                   outlined
+                  :success="true"
                   label="Category"
                   background-color='vuetify_blue'
                   dense
@@ -99,7 +100,8 @@
                        ref='files'
                        @change="list_files"
                 >
-                <v-btn @click="$refs.files.click()">Pictures</v-btn>
+                <v-btn @click="$refs.files.click()"
+                       :color="formValues.files.valid ? 'success' : 'default'">Pictures</v-btn>
               </v-col>
               <v-col cols="4">
                 <v-chip

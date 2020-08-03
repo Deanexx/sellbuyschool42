@@ -3,22 +3,79 @@
     justify-center
     align-center
   >
-  Main page
+      <v-overlay :value="viewPost"
+        :opacity="0.85"
+        color="primary">
+          <view-post :post='selectedPost'
+                     v-if="viewPost"
+                     @close_post="viewPost = false">
+          </view-post>
+      </v-overlay>
+
+  <v-container>
+    <v-row class="d-flex justify-center">
+      <v-col cols="5">
+        <v-card v-for="(post, i) in posts"
+          :key="i"
+          class="mb-4">
+          <v-card-title v-text="post.title" class="justify-center"></v-card-title>
+          <v-img :src="post.urls[0]"></v-img>
+          <v-card-subtitle class="d-flex justify-space-between align-center">
+            <div class="d-flex">
+              <v-icon class="align-self-center mr-1" color="success" small>far fa-eye</v-icon>
+              {{ post.views }}
+            </div>
+            <v-btn color="info"
+              :ripple="false"
+              @click='ft_view_clicked(i)'>View</v-btn>
+            <transition name="fadeOutDown" mode="out-in">
+              <v-card-subtitle class="pb-3 d-flex" :key="activeCur">
+                <v-icon color="primary"
+                        size="15px"
+                        class="mr-1 align-self-center"
+                        dense>
+                  {{ currencies[activeCur].sign }}</v-icon>
+                {{ (post.price * currencies[activeCur].value).toFixed(1) }}
+              </v-card-subtitle>
+            </transition>
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
   </v-layout>
 </template>
 <script>
 
+import {mapState} from "vuex";
+import ViewPost from '~/components/index/ViewPost'
+
 export default {
+  components: {
+    ViewPost
+  },
   data() {
     return {
-      posts: []
+      posts: [],
+      viewPost: false,
+      postId: null
     };
   },
-  components: {
-    
+  computed: {
+    ...mapState({
+      currencies: state => state.currency.currencies,
+      activeCur: state => state.currency.activeCur,
+      selectedPost(){
+        if(this.postId === null) return null;
+        return this.posts[this.postId];
+      }
+    })
   },
   methods:{
-    
+    ft_view_clicked(id){
+      this.postId = id;
+      this.viewPost = true;
+    }
   },
   created(){
     this.$fireStore.collection('posts')
@@ -26,7 +83,16 @@ export default {
       .then(querySnapshot =>
         querySnapshot.forEach( doc =>
           this.posts.push(doc.data())));
-    console.log(this.posts);
   }
 }
-</script> 
+</script>
+<style lang="scss" scoped>
+    .fadeOutDown-enter-active {
+      animation: fadeIn 0.5s;
+    }
+
+    .fadeOutDown-leave-active {
+      animation: fadeIn 0.5s reverse;
+    }
+
+</style>

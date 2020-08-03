@@ -1,6 +1,6 @@
 <template style="position: relative">
-    <v-container style="position: absolute;
-                        top: 5%;
+    <v-container style="position: fixed;
+                        top: 10%;
                         left: 50%;
                         transform: translateX(-20%);
                         z-index: 1">
@@ -8,7 +8,7 @@
         <v-col cols="5">
           <v-card style="position:relative">
             <v-btn absolute
-                   top
+                   style="top: 0%"
                    right
                    :ripple="false"
                    small
@@ -45,7 +45,7 @@
                           class="mr-1 align-self-center"
                           dense>
                     {{ currencies[activeCur].sign }}</v-icon>
-                  {{ total }}
+                  {{ (total).toFixed(1) }}
                 </v-card-subtitle>
               </transition>
             </div>
