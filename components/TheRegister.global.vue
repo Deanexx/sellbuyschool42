@@ -1,49 +1,47 @@
-<template>
-  <div class="form__inner">
-    <div class="overlay" @click="$store.commit('logReg/reg')"></div>
-    <v-container
-      fluid
-      fill-height
-      class='d-flex justify-center align-center'>
-          <v-card width='300' loader-height="3" :loading="loading">
-            <v-card-title>
-              <p>Register</p>
-            </v-card-title>
-            <v-card-text class="pb-0">
-              <v-form>
-                    <v-text-field
-                      :type="i === 'password' || i === 'passwordRepeat' ? 'password' : 'text'"
-                      v-for="(field, i) in registerField"
-                      :hint="field.hintMassage"
-                      v-model="field.value"
-                      :label="field.label"
-                      color="#ff7fac"
-                      outlined
-                      :key="i"
-                      dense
-                      @input="field_check(i, $event)"
-                      >
-                        <v-icon v-show="!field.valid"
-                                slot="append" color="red"
-                        >fas fa-skull</v-icon>
-                        <v-icon v-show="field.valid"
-                                slot="append"
-                                color="green"
-                        >far fa-hand-peace</v-icon>
-                    </v-text-field>
-                <v-card-actions class="pt-0">
-                  <v-btn color="success"
-                         class="mx-auto"
-                         @click="register"
-                         :disabled="isFormValid">
-                    Sign-Up!
-                  </v-btn>
-                </v-card-actions>
-              </v-form>
-            </v-card-text>
-          </v-card>
-    </v-container>
-  </div>
+<template style='position: relative'>
+  <v-card width='300'
+    loader-height="3"
+    :loading="loading"
+    style="position: fixed;
+          top: 50%;
+          left: 50%;
+          z-index:999">
+    <v-card-title>
+      <p>Register</p>
+    </v-card-title>
+    <v-card-text class="pb-0">
+      <v-form>
+            <v-text-field
+              :type="i === 'password' || i === 'passwordRepeat' ? 'password' : 'text'"
+              v-for="(field, i) in registerField"
+              :hint="field.hintMassage"
+              v-model="field.value"
+              :label="field.label"
+              color="#ff7fac"
+              outlined
+              :key="i"
+              dense
+              @input="field_check(i, $event)"
+              >
+                <v-icon v-show="!field.valid"
+                        slot="append" color="red"
+                >fas fa-skull</v-icon>
+                <v-icon v-show="field.valid"
+                        slot="append"
+                        color="green"
+                >far fa-hand-peace</v-icon>
+            </v-text-field>
+        <v-card-actions class="pt-0">
+          <v-btn color="success"
+                  class="mx-auto"
+                  @click="register"
+                  :disabled="isFormValid">
+            Sign-Up!
+          </v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
   import { mapState } from 'vuex'

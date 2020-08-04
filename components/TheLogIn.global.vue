@@ -1,11 +1,8 @@
-<template>
-  <div class="form__inner">
-      <div class="overlay" @click="$store.commit('logReg/logIn')"></div>
-      <v-container
-        class='d-flex justify-center align-center'
-        fill-height
-        fluid>
-        <v-card width='300'>
+<template style='position: relative'>
+        <v-card width='300' style="position: fixed;
+          top: 50%;
+          left: 50%;
+          z-index:999">
           <v-card-title>
             Log in
           </v-card-title>
@@ -26,8 +23,6 @@
                     @click="signIn">Log me in</v-btn>
           </v-card-actions>
         </v-card>
-      </v-container>
-  </div>
 </template>
 
 <script>
@@ -58,10 +53,5 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10
-  }
-  .overlay{
-    @extend .form__inner;
-    z-index: 0;
   }
 </style>

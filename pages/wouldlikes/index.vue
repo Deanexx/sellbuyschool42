@@ -1,7 +1,8 @@
 <template>
   <v-row  class="d-flex flex-wrap justify-center">
     <v-col cols="6">
-      <v-card v-for="wouldLike in wouldLikes"
+      <v-card v-for="(wouldLike, i) in wouldLikes"
+        :key='i'
         class="mb-2">
         <v-card-title class="d-flex">
           <h1 class="primary--text title-1" >{{ wouldLike.intra }} </h1> <h4 class="body-2 align-self-end">&nbsp would like ...</h4>
@@ -20,7 +21,6 @@
 <script>
     export default {
         name: "index.vue",
-      middleware: 'authenticated',
       data(){
           return({
             wouldLikes: []

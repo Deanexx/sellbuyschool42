@@ -1,12 +1,12 @@
 <template>
-  <clien-only>
+  <no-ssr>
     <v-app>
     <v-app-bar
-      class="header__inner"
-      :clipped-left="true"
+      :clipped-left='true'
       fixed
       app
     >
+    <v-btn @click='drawer = !drawer'>Click</v-btn>
     <v-expand-x-transition>
         <v-list transition="fab-transition"
                 :flat='false'
@@ -59,12 +59,14 @@
         </div>
       </transition>
     </v-app-bar>
+    <!-- Drawer -->
     <v-navigation-drawer
+      v-model='drawer'
       app
-      permanent
-      :clipped="true"
-      class="rounded-br-xl"
+      style='z-index: 999'
+      :clipped='true'
     >
+    <!-- Main list --> 
       <v-list>
         <v-list-item-group>
           <v-list-item
@@ -82,6 +84,7 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
+      <!-- User list --> 
       <transition name="slideInLeft" mode="out-in">
         <v-list class="mt-16" v-if="authUser !== null">
           <v-list-item-group>
@@ -107,11 +110,12 @@
       </v-container>
     </v-main>
     <transition name="slideInDown" mode="out-in">
-      <the-register v-if="regForm && authUser == null"/>
-      <the-log-in v-if="logInForm && authUser == null"/>
+      <the-register style='z-index: 999' v-if="regForm && authUser == null"/>
+      <the-log-in style='z-index: 999' v-if="logInForm && authUser == null"/>
     </transition>
+    <div class="overlay" @click='closeRegLog' v-if='(regForm || logInForm) && authUser == null'></div>
   </v-app>
-  </clien-only>
+  </no-ssr>
 </template>
 
 <script>
@@ -174,7 +178,8 @@ export default {
           to: 'myWouldLikes'
         }
       ],
-        listDrop: false
+        listDrop: false,
+        drawer: true
     }
   },
   computed: mapState({
@@ -189,6 +194,10 @@ export default {
     },
     reg_switch(){
       this.$store.commit('logReg/reg');
+    },
+    closeRegLog(){
+      console.log(1);
+      this.$store.commit('logReg/closeRegLog');
     },
     signOut()
     {
@@ -214,9 +223,6 @@ export default {
           color: red !important;
   }
 
-  .header__inner{
-    z-index: 1000;
-  }
   .slideInDown-enter-active{
     animation: slideInDown 0.5s;
   }
@@ -228,5 +234,16 @@ export default {
   }
   .slideInLeft-leave-active{
     animation: slideInLeft .5s reverse;
+  }
+  .overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.9;
+    background: #ff7fac;
+    z-index: 10;
+    cursor: pointer;
   }
 </style>
