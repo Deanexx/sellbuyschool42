@@ -65,6 +65,7 @@
       app
       style='z-index: 999'
       :clipped='true'
+      enable-resize-watcher
     >
     <!-- Main list --> 
       <v-list>
