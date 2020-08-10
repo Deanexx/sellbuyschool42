@@ -6,7 +6,7 @@
       fixed
       app
     >
-    <v-btn @click='drawer = !drawer'>Click</v-btn>
+    <v-btn @click='drawer = !drawer'>Try</v-btn>
     <v-expand-x-transition>
         <v-list transition="fab-transition"
                 :flat='false'
