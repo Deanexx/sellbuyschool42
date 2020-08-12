@@ -1,46 +1,83 @@
 <template style='position: relative'>
-        <v-card width='300' style="position: fixed;
-          top: 50%;
+        <v-card width='300' xs-pt-4 style="position: fixed;
+          top: 10%;
           left: 50%;
+          transform: translate(-50%);
           z-index:999">
           <v-card-title>
             Log in
           </v-card-title>
           <v-card-text>
-            <v-text-field placeholder="Email"
-                          outlined
+            <v-text-field outlined
                           dense
+                          label="Intra"
                           v-model="logIn"/>
-            <v-text-field placeholder="Password"
-                          outlined
+            <v-text-field outlined
                           dense
+                          label="Password"
                           type="password"
                           v-model="password"/>
           </v-card-text>
+           <h1 v-if="error === true" class="display--4">
+             {{  }}
+           </h1>
           <v-card-actions>
             <v-btn color="success"
                     class="mx-auto"
                     @click="signIn">Log me in</v-btn>
           </v-card-actions>
+          <v-alert :value="error"
+                   color="error"
+                   dark
+                   dismissible
+                   border="bottom"
+                   transition="scale-transition"
+                   style="position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    text-align: center">
+            {{ errorMassage }}
+          </v-alert>
         </v-card>
 </template>
 
 <script>
   export default {
-    data(){
+    data() {
       return {
         logIn: '',
-        password: ''
+        password: '',
+        errorMassage: '',
+        error: false
       }
     },
-    computed: {
+    methods: {
+      signIn() {
+        let email = '';
 
+        this.$fireStore.collection("users")
+          .where("intra", "==", this.logIn)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => email = doc.data().email);
+            return email;
+          })
+          .then(innerEmail => {
+            return this.$fireAuth.signInWithEmailAndPassword(innerEmail, this.password);
+          })
+          .then( snapshot => this.$store.commit('logReg/logIn')) // closing sign in tab)
+          .catch(error => {
+              this.errorMassage = error.message;
+              this.error = true;
+          });
+      }
     },
-    methods:  {
-      signIn(){
-        this.$fireAuth.signInWithEmailAndPassword(this.logIn, this.password)
-        .catch(error => alert(error.message));
-        this.$store.commit('logReg/logIn'); // closing sign in tab
+    watch: {
+      error: function(){
+        if (this.error === true)
+          setTimeout(() => this.error = false, 5000)
       }
     }
   }

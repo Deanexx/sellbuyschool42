@@ -1,5 +1,6 @@
-<template class="mt-2">
-  <v-card style="position:relative" width="400">
+<template class="mt-2" style="position:relative">
+    <v-card  width="400"
+           :style="cardStyles">
     <v-btn absolute
            style="top: 0%"
            right
@@ -53,7 +54,15 @@
     props: ['post'],
     data(){
       return{
-        imgs: []
+        imgs: [],
+        cardStyles: {
+          width: this.$vuetify.breakpoint.smAndDown ? '300px' : '400px',
+          position: 'fixed',
+          top:'10%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex : '999'
+        }
       }
     },
     computed:{

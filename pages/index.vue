@@ -14,20 +14,24 @@
 
   <v-container>
     <v-row class="d-flex justify-center">
-      <v-col cols="5">
+      <v-col xs="12" md="8" lg="5">
         <v-card v-for="(post, i) in posts"
           :key="i"
           class="mb-4">
           <v-card-title v-text="post.title" class="justify-center"></v-card-title>
           <v-img :src="post.urls[0]"></v-img>
-          <v-card-subtitle class="d-flex justify-space-between align-center">
+          <v-card-subtitle class="d-flex justify-space-between align-center" style="position: relative">
             <div class="d-flex">
               <v-icon class="align-self-center mr-1" color="success" small>far fa-eye</v-icon>
               {{ post.views }}
             </div>
             <v-btn color="info"
               :ripple="false"
-              @click='ft_view_clicked(i)'>View</v-btn>
+              @click='ft_view_clicked(i)'
+              style="position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%)">View</v-btn>
             <transition name="fadeOutDown" mode="out-in">
               <v-card-subtitle class="pb-3 d-flex" :key="activeCur">
                 <v-icon color="primary"

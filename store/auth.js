@@ -22,16 +22,13 @@ export const mutations = {
   },
   deleteUserIntra(state){
     state.userIntra = null;
-  },
+  }
 }
 
 export const actions = {
-  async registerUser(context, user){
-
+  registerUser(context, user){
     context.commit('setUserState', user);
     context.commit('setUserToken', user.uid);
-    let doc = await this.$fireStore.collection('users').doc(user.uid).get();
-    context.commit('setUserIntra', doc.data().intra);
   },
   logOutUser(context){
     context.commit('deleteUserState');

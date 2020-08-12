@@ -3,8 +3,9 @@
     loader-height="3"
     :loading="loading"
     style="position: fixed;
-          top: 50%;
+          top: 10%;
           left: 50%;
+          transform: translate(-50%);
           z-index:999">
     <v-card-title>
       <p>Register</p>
@@ -49,6 +50,7 @@
   export default {
     data(){
       return{
+          userId: null,
           registerField: {
             intra: {
               value: '',
@@ -95,18 +97,12 @@
           register() {
             this.loading = true;
             /* Register globally */
+            this.$store.commit('auth/setUserIntra', this.registerField.intra.value)
               this.$fireAuth.createUserWithEmailAndPassword(
                 this.registerField.email.value,
                 this.registerField.password.value)
-              .then(data => {
-                /* Saving in cloud store */
-                return this.$fireStore.collection('users').doc(data.user.uid).set({
-                  intra: this.registerField.intra.value,
-                  email: this.registerField.email.value,
-                  uid: data.user.uid})
-              }).then(() => this.$store.commit('logReg/reg'))
-            .catch(error => alert(error))
-            /* closing reg tab */
+              .then(data => this.userId = data.user.uid)
+              .catch(error => alert(error))
           },
         field_check(i, e){
             let field = this.registerField[i];
@@ -117,6 +113,15 @@
               return
             }
             field.pattern.test(field.value) ? field.valid = true : field.valid = false;
+        }
+      },
+      watch:{
+        userId: function(){
+          this.$fireStore.collection('users').doc(this.userId).set({
+            intra: this.registerField.intra.value,
+            email: this.registerField.email.value,
+            uid: this.userId
+          }).then(() => this.$store.commit('logReg/reg'))
         }
       }
     }

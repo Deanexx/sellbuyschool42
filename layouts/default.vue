@@ -1,12 +1,53 @@
 <template>
   <no-ssr>
-    <v-app>
-    <v-app-bar
-      :clipped-left='true'
-      fixed
-      app
-    >
-    <v-btn @click='drawer = !drawer'>Try</v-btn>
+    <v-app style="font-family: Marvin">
+      <v-navigation-drawer :clipped="clipped"
+                           v-model="drawer"
+                           disable-resize-watcher
+                           app
+                           dark
+                           class="primary"
+                           style="z-index: 999">
+        <!-- Main list -->
+        <v-list>
+          <v-list-item-group>
+            <v-list-item
+              v-for="(item, i) in menu"
+              :key="i"
+              :to="item.to"
+              exact
+              router>
+              <v-list-item-icon>
+                <v-icon v-text="item.icon"
+                        right></v-icon>
+              </v-list-item-icon>
+              <v-list-item-title v-text="item.title">
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+        <!-- User list -->
+        <transition name="slideInLeft" mode="out-in">
+          <v-list class="mt-16" v-if="authUser !== null">
+            <v-list-item-group>
+              <v-list-item
+                v-for="(item, i) in authMenu"
+                :key="i"
+                :to="item.to"
+                exact
+                router
+              >
+                <v-list-item-icon>
+                  <v-icon right v-text="item.icon"/>
+                </v-list-item-icon>
+                <v-list-item-title v-text="item.title"/>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </transition>
+      </v-navigation-drawer>
+    <v-app-bar fixed app clipped-left style="z-index: 999">
+    <v-btn @click.stop='drawer = !drawer'>Try</v-btn>
     <v-expand-x-transition>
         <v-list transition="fab-transition"
                 :flat='false'
@@ -45,74 +86,35 @@
             v-if="authUser === null"
             :key="1">
           <v-btn color="primary"
-                @click="logIn_switch">ft_log</v-btn>
+                 x-small
+                @click="logIn_switch">log</v-btn>
           <v-btn class="ml-1"
+                 fab
                 color="some"
-                @click="reg_switch">ft_reg</v-btn>
+                @click="reg_switch">reg</v-btn>
         </div>
         <div class="header__inner__buttons"
             v-else
             :key="2">
           <v-btn
             color="secondary"
-            @click="signOut">ft_logOut</v-btn>
+            x-small
+            fab
+            @click="signOut">Out</v-btn>
         </div>
       </transition>
     </v-app-bar>
     <!-- Drawer -->
-    <v-navigation-drawer
-      v-model='drawer'
-      app
-      style='z-index: 999'
-      :clipped='true'
-      enable-resize-watcher
-    >
-    <!-- Main list --> 
-      <v-list>
-        <v-list-item-group>
-          <v-list-item
-            v-for="(item, i) in menu"
-            :key="i"
-            :to="item.to"
-            exact
-            router>
-            <v-list-item-icon>
-              <v-icon v-text="item.icon"
-                right></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="item.title">
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-      <!-- User list --> 
-      <transition name="slideInLeft" mode="out-in">
-        <v-list class="mt-16" v-if="authUser !== null">
-          <v-list-item-group>
-            <v-list-item
-              v-for="(item, i) in authMenu"
-              :key="i"
-              :to="item.to"
-              exact
-              router
-            >
-              <v-list-item-icon>
-                <v-icon right v-text="item.icon"/>
-              </v-list-item-icon>
-              <v-list-item-title v-text="item.title"/>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </transition>
-    </v-navigation-drawer>
     <v-main>
       <v-container>
           <nuxt />
       </v-container>
     </v-main>
-    <transition name="slideInDown" mode="out-in">
-      <the-register style='z-index: 999' v-if="regForm && authUser == null"/>
-      <the-log-in style='z-index: 999' v-if="logInForm && authUser == null"/>
+    <transition name="slideInDownInner" mode="out-in">
+      <the-register style='z-index: 999'
+                    v-if="regForm && authUser == null"/>
+      <the-log-in style='z-index: 999'
+                  v-if="logInForm && authUser == null"/>
     </transition>
     <div class="overlay" @click='closeRegLog' v-if='(regForm || logInForm) && authUser == null'></div>
   </v-app>
@@ -180,7 +182,8 @@ export default {
         }
       ],
         listDrop: false,
-        drawer: true
+        drawer: this.$vuetify.breakpoint.mdAndUp,
+        clipped: true,
     }
   },
   computed: mapState({
@@ -197,7 +200,6 @@ export default {
       this.$store.commit('logReg/reg');
     },
     closeRegLog(){
-      console.log(1);
       this.$store.commit('logReg/closeRegLog');
     },
     signOut()
@@ -216,26 +218,7 @@ export default {
 </script>
 
 <style scoped>
-  .list__active__style{
-     color: #ff7fac;
-  }
 
-  .list_style:hover{
-          color: red !important;
-  }
-
-  .slideInDown-enter-active{
-    animation: slideInDown 0.5s;
-  }
-  .slideInDown-leave-active{
-    animation: slideInDown .5s reverse;
-  }
-  .slideInLeft-enter-active{
-    animation: slideInLeft 0.5s;
-  }
-  .slideInLeft-leave-active{
-    animation: slideInLeft .5s reverse;
-  }
   .overlay{
     width: 100%;
     height: 100%;
@@ -247,4 +230,38 @@ export default {
     z-index: 10;
     cursor: pointer;
   }
+
+  .list__active__style{
+     color: #ff7fac;
+  }
+
+  .list_style:hover{
+          color: red !important;
+  }
+
+  .slideInDownInner-enter-active{
+    animation: slideInDownInner 0.5s;
+  }
+  .slideInDownInner-leave-active{
+    animation: slideInDownInner .5s reverse;
+  }
+  .slideInLeft-enter-active{
+    animation: slideInLeft 0.5s;
+  }
+  .slideInLeft-leave-active{
+    animation: slideInLeft .5s reverse;
+  }
+  @keyframes slideInDownInner {
+    from {
+      transform: translate3d(-50%, -100%, 0);
+      visibility: visible;
+      opacity: 0;
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+      opacity: 1;
+    }
+  }
+
 </style>

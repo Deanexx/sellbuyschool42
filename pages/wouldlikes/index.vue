@@ -10,7 +10,7 @@
         <v-card-text>
           {{ wouldLike.title }}
         </v-card-text>
-        <v-card-subtitle>
+        <v-card-subtitle style="text-align: right;" class="success--text">
           {{ wouldLike.date }}
         </v-card-subtitle>
       </v-card>
@@ -31,7 +31,6 @@
           .then(snapshot => snapshot.forEach(doc => {
             this.wouldLikes.push(doc.data());
           }));
-          console.log(this.wouldLikes);
       }
     }
 </script>
