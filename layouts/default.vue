@@ -86,21 +86,23 @@
             v-if="authUser === null"
             :key="1">
           <v-btn color="primary"
-                 x-small
-                @click="logIn_switch">log</v-btn>
-          <v-btn class="ml-1"
-                 fab
+                 v-bind="size"
+                 class="text-lowercase"
+                @click="logIn_switch">ft_log</v-btn>
+          <v-btn class="ml-1 text-lowercase"
                 color="some"
-                @click="reg_switch">reg</v-btn>
+                 v-bind="size"
+                @click="reg_switch">ft_reg</v-btn>
         </div>
         <div class="header__inner__buttons"
             v-else
             :key="2">
           <v-btn
+
+            class="text-lowercase"
             color="secondary"
-            x-small
-            fab
-            @click="signOut">Out</v-btn>
+            v-bind="size"
+            @click="signOut">ft_out</v-btn>
         </div>
       </transition>
     </v-app-bar>
@@ -190,7 +192,11 @@ export default {
     regForm: state => state.logReg.regBool,
     logInForm: state => state.logReg.logInBool,
     authUser: state => state.auth.user,
-    selectList: state => state.currency.currencies
+    selectList: state => state.currency.currencies,
+    size () {
+      const size = {xs:'x-small',sm:'small',lg:'small',xl:'small'}[this.$vuetify.breakpoint.name];
+      return size ? { [size]: true } : {}
+    }
   }),
   methods:{
     logIn_switch(){

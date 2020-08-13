@@ -19,7 +19,8 @@
           :key="i"
           class="mb-4">
           <v-card-title v-text="post.title" class="justify-center"></v-card-title>
-          <v-img :src="post.urls[0]"></v-img>
+          <v-img :src="post.urls[0]"
+                 max-height="300"></v-img>
           <v-card-subtitle class="d-flex justify-space-between align-center" style="position: relative">
             <div class="d-flex">
               <v-icon class="align-self-center mr-1" color="success" small>far fa-eye</v-icon>
