@@ -49,7 +49,7 @@
                     label="Description"
                     :success="formValues.desc.valid"
                     outlined
-                    height='200'
+                    height='100'
                     counter='350'
                     maxlength='350'
                     @input="check_field('desc', $event)"
@@ -85,7 +85,7 @@
                   <v-btn @click='$refs.files.click()'
                          :color="formValues.files.valid ? 'success' : 'default'">Add pictures</v-btn>
                 </v-col>
-                <v-col cols="12" md="5" class="d-flex" :class="{'px-0': $vuetify.breakpoint.smAndDown}">
+                <v-col cols="12" md="5" class="d-flex mb-0 pb-0" :class="{'px-0': $vuetify.breakpoint.smAndDown}">
                   <v-chip
                     v-for='(file, i) in formValues.files.value'
                     :key='file.name'

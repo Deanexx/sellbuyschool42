@@ -1,11 +1,11 @@
 <template style="position: relative">
     <v-container style="position: fixed;
-                        top: 10%;
+                        top: 5%;
                         left: 50%;
-                        transform: translateX(-20%);
+                        transform: translateX(-50%);
                         z-index: 1">
       <v-row>
-        <v-col cols="5">
+        <v-col cols="12" md="5">
           <v-card style="position:relative">
             <v-btn absolute
                    style="top: 0%"

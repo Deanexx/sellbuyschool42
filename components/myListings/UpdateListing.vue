@@ -1,15 +1,16 @@
 <template style="position: relative">
   <v-container style="position: fixed;
-                        top: 10%;
+                        top: 5%;
                         left: 50%;
-                        transform: translateX(-20%);
+                        transform: translateX(-50%);
                         z-index: 1">
     <v-row>
-      <v-col cols="5">
-        <v-card style="position: relative">
+      <v-col cols="12" md="5" :style="$vuetify.breakpoint.smAndDown ? 'overflow-y:scroll; height: 450px' : ''">
+        <v-card
+          style="position: relative">
 <!--         Closing Button-->
           <v-btn absolute
-                 top
+
                  right
                  :disabled="updateSent"
                  :ripple="false"
@@ -21,11 +22,11 @@
           >
             <v-icon color="error">far fa-window-close</v-icon>
           </v-btn>
-          <v-card-title>Update listing</v-card-title>
+          <v-card-title class="primary--text">Update listing</v-card-title>
           <v-card-text>
             <v-row>
 <!--              Title-->
-              <v-col cols="8">
+              <v-col cols="12" md="8" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <v-text-field
                   v-model="formValues.title.value"
                   :success="formValues.title.valid"
@@ -41,7 +42,7 @@
                 </v-text-field>
               </v-col>
 <!--              Price-->
-              <v-col cols="4">
+              <v-col cols="4" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <v-text-field
                   v-model="formValues.price.value"
                   dense
@@ -59,7 +60,7 @@
             </v-row>
 <!--              Desc-->
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <v-textarea
                   v-model="formValues.desc.value"
                   background-color='vuetify_blue'
@@ -77,7 +78,7 @@
             </v-row>
 <!--              Category-->
             <v-row>
-              <v-col cols='4'>
+              <v-col cols="6" sd="5" md="3" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <v-select
                   v-model="formValues.category.value"
                   outlined
@@ -92,7 +93,7 @@
             </v-row>
 <!--            File-->
             <v-row>
-              <v-col cols='4'>
+              <v-col cols='3' :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <input type="file"
                        hidden
                        multiple
@@ -103,7 +104,7 @@
                 <v-btn @click="$refs.files.click()"
                        :color="formValues.files.valid ? 'success' : 'default'">Pictures</v-btn>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="12" md="5" class="d-flex" :class="{'px-0': $vuetify.breakpoint.smAndDown}">
                 <v-chip
                   v-for='(file, i) in formValues.files.value'
                   :key='file.name'
@@ -117,7 +118,7 @@
             </v-row>
           </v-card-text>
 <!--          Button-->
-          <v-card-actions>
+          <v-card-actions class="mt-0 pt-0">
             <v-btn class='mx-auto'
                    color='success'
                    :loading="updateSent"
