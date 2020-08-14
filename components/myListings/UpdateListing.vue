@@ -5,7 +5,8 @@
                         transform: translateX(-50%);
                         z-index: 1">
     <v-row>
-      <v-col cols="12" md="5" :style="$vuetify.breakpoint.smAndDown ? 'overflow-y:scroll; height: 450px' : ''">
+      <v-col cols="12" md="5"
+             :style="$vuetify.breakpoint.smAndDown ? 'overflow-y:scroll; height: ' + $vuetify.breakpoint.height - 50 : ''">
         <v-card
           style="position: relative">
 <!--         Closing Button-->
