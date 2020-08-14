@@ -7,8 +7,19 @@
                            app
                            dark
                            class="primary"
-                           style="z-index: 999">
+                           style="
+                           z-index: 999;
+                           visibility: visible;
+                            overflow: visible;">
         <!-- Main list -->
+          <v-btn
+            class="btn"
+            v-if="$vuetify.breakpoint.mdAndDown"
+            icon
+            x-large
+            v-ripple="false"
+            :color="!drawer ? 'info' : 'error'"
+            @click.stop='drawer = !drawer'><v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon></v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
             <v-list-item
@@ -47,7 +58,6 @@
         </transition>
       </v-navigation-drawer>
     <v-app-bar fixed app clipped-left style="z-index: 999">
-    <v-btn @click.stop='drawer = !drawer'>Try</v-btn>
     <v-expand-x-transition>
         <v-list transition="fab-transition"
                 :flat='false'
@@ -185,7 +195,7 @@ export default {
       ],
         listDrop: false,
         drawer: this.$vuetify.breakpoint.mdAndUp,
-        clipped: true,
+        clipped: true
     }
   },
   computed: mapState({
@@ -224,6 +234,20 @@ export default {
 </script>
 
 <style scoped>
+
+  .btn{
+    position: absolute;
+    top: 11%;
+    display: block;
+    right: -20%;
+    animation: pulse 6s linear reverse infinite;
+    animation-delay: 3s;
+  }
+
+  .btn::before{
+    opacity: 0;
+    display: none;
+  }
 
   .overlay{
     width: 100%;
@@ -270,4 +294,17 @@ export default {
     }
   }
 
+  @keyframes pulse {
+    from {
+      transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+      transform: scale3d(1.10, 1.10, 1.10);
+    }
+
+    to {
+      transform: scale3d(1, 1, 1);
+    }
+  }
 </style>
