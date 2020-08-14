@@ -1,6 +1,7 @@
 <template>
   <no-ssr>
     <v-app style="font-family: Marvin">
+<!--      Navigation drawer-->
       <v-navigation-drawer :clipped="clipped"
                            v-model="drawer"
                            disable-resize-watcher
@@ -14,7 +15,7 @@
         <!-- Main list -->
           <v-btn
             class="btn"
-            v-if="$vuetify.breakpoint.mdAndDown"
+            v-if="true"
             icon
             x-large
             v-ripple="false"
@@ -57,6 +58,7 @@
           </v-list>
         </transition>
       </v-navigation-drawer>
+<!--      App-bar, header-->
     <v-app-bar fixed app clipped-left style="z-index: 999">
     <v-expand-x-transition>
         <v-list transition="fab-transition"
@@ -109,7 +111,7 @@
         <div class="header__inner__buttons"
             v-else
             :key="2">
-          <v-btn
+        <v-btn
 
             class="text-lowercase"
             color="secondary"
