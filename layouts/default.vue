@@ -18,7 +18,7 @@
             icon
             x-large
             v-ripple="false"
-            :color="!drawer ? 'info' : 'error'"
+            :color="!drawer ? 'info' : 'warning'"
             @click.stop='drawer = !drawer'><v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon></v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
@@ -66,6 +66,8 @@
                 v-show='listDrop'
                 style="position: absolute;
               top: 100%;
+              border-left: 2px solid #ff7fac;
+              border-right: 2px solid #ff7fac;
               left: 25%;
               transform: translateX(-50%)">
           <v-list-item-group mandatory active-class="list__active__style">
@@ -240,7 +242,7 @@ export default {
     top: 11%;
     display: block;
     right: -20%;
-    animation: pulse 6s linear reverse infinite;
+    animation: pulse 3s linear reverse infinite;
     animation-delay: 3s;
   }
 
@@ -300,7 +302,7 @@ export default {
     }
 
     50% {
-      transform: scale3d(1.10, 1.10, 1.10);
+      transform: scale3d(1.15, 1.15, 1.15);
     }
 
     to {
