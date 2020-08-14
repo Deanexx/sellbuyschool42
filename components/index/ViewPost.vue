@@ -14,7 +14,7 @@
       <v-icon color="error">far fa-window-close</v-icon>
     </v-btn>
     <v-carousel
-      height="300px"
+      :height="$vuetify.breakpoint.height < 700 ? '200px' : '300px'"
       active-class="active"
       show-arrows-on-hover
       :show-arrows="true"
@@ -26,14 +26,19 @@
     </v-carousel>
     <v-card-title v-text="post.title"></v-card-title>
     <v-card-subtitle class="d-flex">
-      <v-icon class="align-self-center mr-1" color="success" small>far fa-eye</v-icon>
+      <v-icon class="align-self-center mr-1"
+              color="success"
+              small>far fa-eye</v-icon>
       {{ post.views }}
     </v-card-subtitle>
-    <v-card-text>{{ post.desc }}</v-card-text>
+    <v-card-text :class="{'py-0' : $vuetify.breakpoint.height < 700 ? '200px' : '300px'}">{{ post.desc }}</v-card-text>
     <div class="d-flex flex-no-wrap justify-space-between">
-      <v-card-subtitle>{{ post.date }}</v-card-subtitle>
+      <v-card-subtitle :class="{'py-1' : $vuetify.breakpoint.smAndDown}"
+                       class="success--text">{{ post.date }}</v-card-subtitle>
       <transition name="fadeOutDown" mode="out-in">
-        <v-card-subtitle class="d-flex" :key="total">
+        <v-card-subtitle class="d-flex"
+                         :key="total"
+                         :class="{'py-1' : $vuetify.breakpoint.smAndDown}">
           <v-icon color="primary"
                   size="15px"
                   class="mr-1 align-self-center"
@@ -57,6 +62,7 @@
         imgs: [],
         cardStyles: {
           width: this.$vuetify.breakpoint.smAndDown ? '300px' : '400px',
+          height: this.$vuetify.breakpoint.smAndDown ? 'overflow-y:scroll; height: ' + this.$vuetify.breakpoint.height - 50 : 'auto',
           position: 'fixed',
           top:'10%',
           left: '50%',
@@ -75,6 +81,7 @@
       })
     },
     created(){
+      console.log(this.$vuetify.breakpoint.height);
       this.post.filesNames.forEach(el => {
         this.$fireStorage.ref().child('thumbnails/' + el + '_500x500')
           .getDownloadURL()

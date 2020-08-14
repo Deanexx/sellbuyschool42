@@ -49,7 +49,7 @@
                     label="Description"
                     :success="formValues.desc.valid"
                     outlined
-                    height='100'
+                    :height="$vuetify.breakpoint.smAndDown ? '100' : '200'"
                     counter='350'
                     maxlength='350'
                     @input="check_field('desc', $event)"

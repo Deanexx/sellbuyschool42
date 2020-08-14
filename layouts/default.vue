@@ -9,7 +9,7 @@
                            class="primary"
                            style="z-index: 999">
         <!-- Main list -->
-        <v-list>
+        <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
             <v-list-item
               v-for="(item, i) in menu"

@@ -1,9 +1,9 @@
 <template style="position: relative">
-    <v-container style="position: fixed;
-                        top: 5%;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        z-index: 1">
+    <v-container :style="{position: 'fixed',
+                        top: '7%',
+                        left: $vuetify.breakpoint.lgAndUp ? '75%' : '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: '1'}">
       <v-row>
         <v-col cols="12" md="5">
           <v-card style="position:relative">
@@ -20,7 +20,7 @@
               <v-icon color="error">far fa-window-close</v-icon>
             </v-btn>
             <v-carousel
-              height="300px"
+              :height="$vuetify.breakpoint.height < 700 ? '180px' : '300px'"
               active-class="active"
               show-arrows-on-hover
               :show-arrows="true"
@@ -35,11 +35,11 @@
               <v-icon class="align-self-center mr-1" color="success" small>far fa-eye</v-icon>
               {{ post.views }}
             </v-card-subtitle>
-            <v-card-text>{{ post.desc }}</v-card-text>
+            <v-card-text :class="{'pb-0' : $vuetify.breakpoint.smAndDown}">{{ post.desc }}</v-card-text>
             <div class="d-flex flex-no-wrap justify-space-between">
-              <v-card-subtitle>{{ post.date }}</v-card-subtitle>
+              <v-card-subtitle class="success--text"  :class="{'py-1' : $vuetify.breakpoint.smAndDown}">{{ post.date }}</v-card-subtitle>
               <transition name="fadeOutDown" mode="out-in">
-                <v-card-subtitle class="d-flex" :key="total">
+                <v-card-subtitle class="d-flex" :key="total" :class="{'py-1' : $vuetify.breakpoint.smAndDown}">
                   <v-icon color="primary"
                           size="15px"
                           class="mr-1 align-self-center"
@@ -77,6 +77,7 @@
         })
        },
       created(){
+        console.log(this.$vuetify.breakpoint.height);
         this.post.filesNames.forEach(el => {
           this.$fireStorage.ref().child('thumbnails/' + el + '_500x500')
             .getDownloadURL()

@@ -1,9 +1,9 @@
 <template style="position: relative">
-  <v-container style="position: fixed;
-                        top: 5%;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        z-index: 1">
+  <v-container :style="{position: 'fixed',
+                        top: '7%',
+                        left: $vuetify.breakpoint.lgAndUp ? '75%' : '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: '1'}">
     <v-row>
       <v-col cols="12" md="5"
              :style="$vuetify.breakpoint.smAndDown ? 'overflow-y:scroll; height: ' + $vuetify.breakpoint.height - 50 : ''">
@@ -79,7 +79,7 @@
             </v-row>
 <!--              Category-->
             <v-row>
-              <v-col cols="6" sd="5" md="3" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
+              <v-col cols="6" sm="5" md="6" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                 <v-select
                   v-model="formValues.category.value"
                   outlined
