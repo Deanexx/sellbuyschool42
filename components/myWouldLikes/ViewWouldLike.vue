@@ -1,8 +1,8 @@
 <template style="position: relative">
   <v-card style="position: fixed;
-                        top: 20%;
+                        top: 15%;
                         left: 50%;
-                        transform: translateX(-20%);
+                        transform: translateX(-50%);
                         z-index: 1"
     width="300px"
     color="primary">

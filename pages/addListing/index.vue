@@ -1,15 +1,15 @@
 <template>
     <v-container>
-      <v-row class="d-flex justify-center">
-        <v-col cols='8' class="">
+      <v-row class="d-flex d-flex-wrap justify-center align-center">
+        <v-col xs="12" md="8">
           <v-card>
-            <v-card-title>Adding listing</v-card-title>
+            <v-card-title class="primary--text">Adding listing</v-card-title>
             <v-card-text>
               <!-- Title -->
               <v-row>
-                <v-col cols='8'>
+                <v-col cols="12" md="8" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                   <v-text-field
-                    v-model='formValues.title.value'
+                    v-model="formValues.title.value"
                     dense
                     outlined
                     :success="formValues.title.valid"
@@ -23,7 +23,7 @@
                   </v-text-field>
                 </v-col>
               <!-- Price -->
-                <v-col cols='4'>
+                <v-col cols='4' :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                   <v-text-field
                     v-model='formValues.price.value'
                     dense
@@ -41,7 +41,7 @@
               </v-row>
               <!-- Desc -->
               <v-row>
-                <v-col cols='12'>
+                <v-col cols='12' :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                   <v-textarea
                     v-model='formValues.desc.value'
                     background-color='vuetify_blue'
@@ -59,7 +59,7 @@
               </v-row>
               <!-- Category -->
               <v-row>
-                <v-col cols='3'>
+                <v-col cols="6" sd="5" md="3" :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                   <v-select
                     label="Category"
                     v-model='formValues.category.value'
@@ -74,7 +74,7 @@
               </v-row>
               <!-- File -->
               <v-row>
-                <v-col cols='3'>
+                <v-col cols='3' :class="{'py-0': $vuetify.breakpoint.smAndDown}">
                   <input type="file"
                          hidden
                          multiple
@@ -85,7 +85,7 @@
                   <v-btn @click='$refs.files.click()'
                          :color="formValues.files.valid ? 'success' : 'default'">Add pictures</v-btn>
                 </v-col>
-                <v-col cols="5" class="d-flex">
+                <v-col cols="12" md="5" class="d-flex" :class="{'px-0': $vuetify.breakpoint.smAndDown}">
                   <v-chip
                     v-for='(file, i) in formValues.files.value'
                     :key='file.name'
@@ -93,7 +93,8 @@
                     @click:close='removeChip(i)'
                     class="ml-5">
                     <template>
-                      <span style="max-width: 60px" class="text-truncate">{{ file.name}}</span>
+                      <span style="max-width: 60px"
+                            class="text-truncate">{{ file.name}}</span>
                     </template>
                   </v-chip>
                 </v-col>

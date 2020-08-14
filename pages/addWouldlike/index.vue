@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col cols="12">
+  <v-row class="d-flex justify-center align-center">
+    <v-col xs="12" sm="8" md="5">
       <v-card>
         <v-card-title>I would like...</v-card-title>
         <v-card-text>

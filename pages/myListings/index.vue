@@ -16,12 +16,12 @@
 
     <v-container>
       <v-row  class="d-flex flex-wrap justify-center">
-        <v-col cols="6">
+        <v-col cols="12" sm="6">
           <transition-group name="fadeOutDown">
             <v-card v-for="(post, i) in posts"
                     class="mb-4"
                     :key="post.id">
-              <div class="d-flex flex-no-wrap justify-space-between">
+              <div class="d-flex flex-no-wrap justify-space-between" :class="{'flex-column-reverse': $vuetify.breakpoint.smAndDown}">
                 <div>
                   <v-card-title v-text="post.title"></v-card-title>
                   <transition name="fadeOutDown" mode="out-in">
@@ -35,16 +35,16 @@
                     </v-card-subtitle>
                   </transition>
 
-                  <v-card-actions class="pb-0 pt-0">
-                    <v-btn color="info" @click='ft_view_clicked(i)'>View</v-btn>
-                    <v-btn color="vuetify_blue" @click="ft_update_clicked(i)">Update</v-btn>
-                    <v-btn color="error" @click="ft_delete_clicked(i)">Delete</v-btn>
+                  <v-card-actions class="pb-0 pt-0" :class="{'pb-2': $vuetify.breakpoint.smAndDown}">
+                    <v-btn color="info" v-bind="size" @click='ft_view_clicked(i)'>View</v-btn>
+                    <v-btn color="vuetify_blue" v-bind="size" @click="ft_update_clicked(i)">Update</v-btn>
+                    <v-btn color="error" v-bind="size" @click="ft_delete_clicked(i)">Delete</v-btn>
                   </v-card-actions>
                 </div>
                 <v-avatar
                   tile
                   class="rounded-sm"
-                  size="125">
+                  :size="$vuetify.breakpoint.smAndDown ? 'auto' : 125">
                   <v-img :src="post.urls[0]"></v-img>
                 </v-avatar>
               </div>
@@ -85,6 +85,10 @@
         selectedPost(){
           if(this.postId === null) return null;
           return this.posts[this.postId];
+        },
+        size() {
+          const size = {xs:'small',sm:'small',lg:'small',xl:'small'}[this.$vuetify.breakpoint.name];
+          return size ? { [size]: true } : {}
         }
       })
     },
