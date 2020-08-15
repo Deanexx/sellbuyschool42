@@ -15,12 +15,14 @@
         <!-- Main list -->
           <v-btn
             class="btn"
-            v-if="true"
+            v-if="$vuetify.breakpoint.mdAndDown"
             icon
             x-large
             v-ripple="false"
             :color="!drawer ? 'info' : 'warning'"
-            @click.stop='drawer = !drawer'><v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon></v-btn>
+            @click.stop='drawer = !drawer'>
+            <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
+          </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
             <v-list-item
@@ -61,17 +63,17 @@
 <!--      App-bar, header-->
     <v-app-bar fixed app clipped-left style="z-index: 999">
     <v-expand-x-transition>
-        <v-list transition="fab-transition"
+        <v-list
                 :flat='false'
                 :v-ripple="false"
                 class='rounded-b-lg'
                 v-show='listDrop'
                 style="position: absolute;
-              top: 100%;
-              border-left: 2px solid #ff7fac;
-              border-right: 2px solid #ff7fac;
-              left: 25%;
-              transform: translateX(-50%)">
+                  top: 100%;
+                  border-left: 2px solid #ff7fac;
+                  border-right: 2px solid #ff7fac;
+                  left: 25%;
+                  transform: translateX(-50%)">
           <v-list-item-group mandatory active-class="list__active__style">
             <v-list-item v-for='(property, name) in selectList'
                          class='list_style'
@@ -249,6 +251,7 @@ export default {
   }
 
   .btn::before{
+    position: absolute;
     opacity: 0;
     display: none;
   }

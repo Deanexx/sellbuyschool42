@@ -11,7 +11,9 @@
                      @close_post="viewPost = false">
           </view-post>
       </v-overlay>
+  <order-posts>
 
+  </order-posts>
   <v-container>
     <v-row class="d-flex justify-center">
       <v-col xs="12" md="8" lg="5">
@@ -54,13 +56,16 @@
 
 import {mapState} from "vuex";
 import ViewPost from '~/components/index/ViewPost'
+import OrderPosts from '~/components/index/OrderPosts'
 
 export default {
   components: {
-    ViewPost
+    ViewPost,
+    OrderPosts
   },
   data() {
     return {
+      order: 'default',
       posts: [],
       viewPost: false,
       postId: null
@@ -77,6 +82,9 @@ export default {
     })
   },
   methods:{
+    change_order_post(){
+
+    },
     ft_view_clicked(id){
       this.postId = id;
       this.viewPost = true;
