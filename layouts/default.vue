@@ -250,11 +250,6 @@ export default {
     animation-delay: 3s;
   }
 
-  .btn::before{
-    position: absolute;
-    opacity: 0;
-    display: none;
-  }
 
   .overlay{
     width: 100%;
