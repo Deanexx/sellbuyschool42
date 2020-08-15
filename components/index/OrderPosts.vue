@@ -8,7 +8,6 @@
           z-index: 997'
           class="d-flex d-flex-wrap justify-center align-center">
         <v-btn
-
           icon
           light
           x-large

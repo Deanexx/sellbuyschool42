@@ -15,10 +15,8 @@
         <!-- Main list -->
           <v-btn
             class="btn"
-            icon
-            x-large
             >
-            <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
+            <v-icon>far fa-compass</v-icon>
           </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
