@@ -10,8 +10,9 @@
                            class="primary"
                            style="
                            z-index: 999;
-                           visibility: visible;
-                            overflow: visible;">
+                           display: block !important;
+                           visibility: visible !important;
+                           overflow: visible !important;">
         <!-- Main list -->
           <v-btn
             class="btn"
@@ -240,6 +241,10 @@ export default {
     position: absolute;
     top: 11%;
     right: -20%;
+    display: block !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    z-index: 999;
     /*animation: pulse 3s linear reverse infinite;*/
     /*animation-delay: 3s;*/
   }
