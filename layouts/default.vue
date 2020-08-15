@@ -246,10 +246,15 @@ export default {
     top: 11%;
     display: block;
     right: -20%;
-    animation: pulse 3s linear reverse infinite;
-    animation-delay: 3s;
+    /*animation: pulse 3s linear reverse infinite;*/
+    /*animation-delay: 3s;*/
   }
 
+  /*.btn::before{*/
+  /*  position: absolute;*/
+  /*  opacity: 0;*/
+  /*  display: none;*/
+  /*}*/
 
   .overlay{
     width: 100%;
