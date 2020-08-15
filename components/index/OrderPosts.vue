@@ -1,7 +1,10 @@
 <template>
-  <v-bottom-sheet v-model="sheet">
+  <v-dialog>
     <template v-slot:activator="{ on, attr }">
       <v-btn
+        style='position: fixed;
+        top: 11%;
+        right:0;'
         icon
         color="warning"
         v-bind="attr"
@@ -11,10 +14,6 @@
       </v-btn>
     </template>
     <v-list
-      v-show="listDrop"
-      style='position: fixed;
-        top: 11%;
-        right:0;'
       :flat='false'
       :v-ripple="false" >
       <v-list-item-group>
@@ -26,7 +25,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </v-bottom-sheet>
+  </v-dialog>
 
 
 </template>
@@ -34,13 +33,9 @@
 <script>
     export default {
         name: "OrderPosts",
-      props:{
-        sheet: {
-          default: false
-        }
-      },
       data(){
           return ({
+            sheet: true,
             selectItems: ['Cars / Motorcycles', 'Books', 'Electronics', 'Furniture', 'Other'],
           })
       }
