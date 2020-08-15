@@ -15,12 +15,9 @@
         <!-- Main list -->
           <v-btn
             class="btn"
-            v-if="$vuetify.breakpoint.mdAndDown"
             icon
             x-large
-            v-ripple="false"
-            :color="!drawer ? 'info' : 'warning'"
-            @click='drawer = !drawer'>
+            >
             <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
           </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">

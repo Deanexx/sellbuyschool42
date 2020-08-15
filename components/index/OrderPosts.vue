@@ -1,19 +1,33 @@
 <template>
-  <v-dialog>
+  <v-dialog overlay-color="primary" transition="fab-transition" :width="$vuetify.breakpoint.mdAndDown ? '100%' : '25%'">
     <template v-slot:activator="{ on, attr }">
-      <v-btn
+      <div
         style='position: fixed;
-        top: 11%;
-        right:0;'
-        icon
-        color="warning"
-        v-bind="attr"
-        v-on="on"
-      >
-        <v-icon>fab fa-megaport</v-icon>
-      </v-btn>
+          bottom: 6%;
+          right: 11%;
+          z-index: 997'
+          class="d-flex d-flex-wrap justify-center align-center">
+        <v-btn
+
+          icon
+          light
+          x-large
+          color="warning"
+          v-bind="attr"
+          v-on="on"
+        >
+          <v-icon>fab fa-megaport</v-icon>
+        </v-btn>
+        <span
+          class="warning black--text ml-n4 px-2 rounded-r-xl"
+          style="z-index: 998;
+                  cursor: pointer;"
+          v-bind="attr"
+          v-on="on">Sort</span>
+      </div>
+
     </template>
-    <v-list
+    <v-list class="dialog"
       :flat='false'
       :v-ripple="false" >
       <v-list-item-group>
@@ -43,5 +57,9 @@
 </script>
 
 <style scoped>
-
+  .dialog{
+    border-color: #ff7fac !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+  }
 </style>
