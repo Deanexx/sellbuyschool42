@@ -20,7 +20,7 @@
             x-large
             v-ripple="false"
             :color="!drawer ? 'info' : 'warning'"
-            @click.stop='drawer = !drawer'>
+            @click='drawer = !drawer'>
             <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
           </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
@@ -244,17 +244,16 @@ export default {
   .btn{
     position: absolute;
     top: 11%;
-    display: block;
     right: -20%;
     /*animation: pulse 3s linear reverse infinite;*/
     /*animation-delay: 3s;*/
   }
 
-  /*.btn::before{*/
-  /*  position: absolute;*/
-  /*  opacity: 0;*/
-  /*  display: none;*/
-  /*}*/
+  .btn::before{
+    position: absolute;
+    opacity: 0;
+    display: none;
+  }
 
   .overlay{
     width: 100%;

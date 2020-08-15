@@ -1,5 +1,15 @@
 <template>
-  <v-expand-transition>
+  <v-bottom-sheet v-model="sheet">
+    <template v-slot:activator="{ on, attr }">
+      <v-btn
+        icon
+        color="warning"
+        v-bind="attr"
+        v-on="on"
+      >
+        <v-icon>fab fa-megaport</v-icon>
+      </v-btn>
+    </template>
     <v-list
       v-show="listDrop"
       style='position: fixed;
@@ -16,17 +26,22 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </v-expand-transition>
+  </v-bottom-sheet>
+
 
 </template>
 
 <script>
     export default {
         name: "OrderPosts",
+      props:{
+        sheet: {
+          default: false
+        }
+      },
       data(){
           return ({
             selectItems: ['Cars / Motorcycles', 'Books', 'Electronics', 'Furniture', 'Other'],
-            listDrop: false
           })
       }
     }

@@ -11,9 +11,7 @@
                      @close_post="viewPost = false">
           </view-post>
       </v-overlay>
-  <order-posts>
-
-  </order-posts>
+  <order-posts/>
   <v-container>
     <v-row class="d-flex justify-center">
       <v-col xs="12" md="8" lg="5">
