@@ -1,6 +1,6 @@
 <template>
   <no-ssr>
-    <v-app style="font-family: Marvin">
+    <v-app>
 <!--      Navigation drawer-->
       <v-navigation-drawer :clipped="clipped"
                            v-model="drawer"
@@ -10,14 +10,18 @@
                            class="primary"
                            style="
                            z-index: 999;
-                           display: block !important;
-                           visibility: visible !important;
-                           overflow: visible !important;">
+                           visibility: visible;
+                            overflow: visible;">
         <!-- Main list -->
           <v-btn
             class="btn"
-            >
-            <v-icon>far fa-compass</v-icon>
+            v-if="$vuetify.breakpoint.mdAndDown"
+            icon
+            x-large
+            v-ripple="false"
+            :color="!drawer ? 'primary' : 'warning'"
+            @click='drawer = !drawer'>
+            <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
           </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
@@ -241,10 +245,6 @@ export default {
     position: absolute;
     top: 11%;
     right: -20%;
-    display: block !important;
-    visibility: visible !important;
-    overflow: visible !important;
-    z-index: 999;
     /*animation: pulse 3s linear reverse infinite;*/
     /*animation-delay: 3s;*/
   }

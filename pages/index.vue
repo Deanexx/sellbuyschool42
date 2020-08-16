@@ -11,11 +11,11 @@
                      @close_post="viewPost = false">
           </view-post>
       </v-overlay>
-  <order-posts/>
+  <order-posts v-on:setOrder="set_order"/>
   <v-container>
     <v-row class="d-flex justify-center">
       <v-col xs="12" md="8" lg="5">
-        <v-card v-for="(post, i) in posts"
+        <v-card v-for="(post, i) in postsRender"
           :key="i"
           class="mb-4">
           <v-card-title v-text="post.title" class="justify-center"></v-card-title>
@@ -65,6 +65,7 @@ export default {
     return {
       order: 'default',
       posts: [],
+      postsRender: [],
       viewPost: false,
       postId: null
     };
@@ -80,8 +81,19 @@ export default {
     })
   },
   methods:{
-    change_order_post(){
+    set_order(order){
 
+      this.postsRender.splice(0, this.postsRender.length);
+      console.log(this.posts)
+      switch(order){
+        case 'Random': {
+          this.posts.forEach(el => this.postsRender.push(el));
+          break;
+        }
+        default :
+          this.postsRender = this.posts.filter(el => el.category === order);
+      }
+      console.log(this.posts);
     },
     ft_view_clicked(id){
       this.postId = id;
@@ -89,11 +101,26 @@ export default {
     }
   },
   created(){
+    let tmp;
+    let firstIndex;
+    let secondIndex;
+
     this.$fireStore.collection('posts')
       .get()
-      .then(querySnapshot =>
-        querySnapshot.forEach( doc =>
-          this.posts.push(doc.data())));
+      .then(querySnapshot => {
+        querySnapshot.forEach( doc => this.posts.push(doc.data()));
+        for(let i = 0; i < this.posts.length; i++){
+          firstIndex = Math.floor(Math.random() * this.posts.length);
+          secondIndex = Math.floor(Math.random() * this.posts.length);
+
+          tmp = this.posts[firstIndex];
+          this.posts[firstIndex] = this.posts[secondIndex];
+          this.posts[secondIndex] = tmp;
+        }
+
+        this.posts.forEach(el => this.postsRender.push(el));
+        }
+      );
   }
 }
 </script>
