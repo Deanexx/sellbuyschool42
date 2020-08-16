@@ -3,6 +3,7 @@
     justify-center
     align-center
   >
+<!--    View a post-->
       <v-overlay :value="viewPost"
         :opacity="0.85"
         color="primary">
@@ -11,12 +12,26 @@
                      @close_post="viewPost = false">
           </view-post>
       </v-overlay>
+<!--    End View post-->
+<!--    Select-->
   <order-posts v-on:setOrder="set_order"/>
+<!--    End Select-->
+
   <v-container>
     <v-row class="d-flex justify-center">
       <v-col xs="12" md="8" lg="5">
+        <!--    Spin-->
+        <v-progress-circular
+          v-if="loading"
+          :width="7"
+          :size="70"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+        <!--    Spin End  -->
         <v-card v-for="(post, i) in postsRender"
           :key="i"
+          v-if="!loading"
           class="mb-4">
           <v-card-title v-text="post.title" class="justify-center"></v-card-title>
           <v-img :src="post.urls[0]"
@@ -67,7 +82,8 @@ export default {
       posts: [],
       postsRender: [],
       viewPost: false,
-      postId: null
+      postId: null,
+      loading: false
     };
   },
   computed: {
@@ -82,6 +98,7 @@ export default {
   },
   methods:{
     set_order(order){
+      this.loading = true;
 
       this.postsRender.splice(0, this.postsRender.length);
       console.log(this.posts)
@@ -93,7 +110,7 @@ export default {
         default :
           this.postsRender = this.posts.filter(el => el.category === order);
       }
-      console.log(this.posts);
+      this.loading = false;
     },
     ft_view_clicked(id){
       this.postId = id;
@@ -105,6 +122,7 @@ export default {
     let firstIndex;
     let secondIndex;
 
+    this.loading = true;
     this.$fireStore.collection('posts')
       .get()
       .then(querySnapshot => {
@@ -119,6 +137,7 @@ export default {
         }
 
         this.posts.forEach(el => this.postsRender.push(el));
+        this.loading = false;
         }
       );
   }
