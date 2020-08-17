@@ -30,9 +30,9 @@
         ></v-progress-circular>
         <!--    Spin End  -->
         <v-card v-for="(post, i) in postsRender"
-          :key="i"
-          v-if="!loading"
-          class="mb-4">
+            :key="i"
+            v-if="!loading"
+            class="mb-4">
           <v-card-title v-text="post.title" class="justify-center"></v-card-title>
           <v-img :src="post.urls[0]"
                  max-height="300"></v-img>
@@ -92,7 +92,7 @@ export default {
       activeCur: state => state.currency.activeCur,
       selectedPost(){
         if(this.postId === null) return null;
-        return this.posts[this.postId];
+        return this.postsRender[this.postId];
       }
     })
   },

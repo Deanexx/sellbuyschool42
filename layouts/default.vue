@@ -85,7 +85,7 @@
           </v-list-item-group>
         </v-list>
     </v-expand-x-transition>
-      <v-img src='/logos/school42.jpg'
+      <v-img src='/logos/school42.png'
         max-width='40px'
         max-height='40px'
         contain
