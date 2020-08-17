@@ -11,6 +11,7 @@
                            style="
                            z-index: 999;
                            visibility: visible;
+                           display: block;
                             overflow: visible;">
         <!-- Main list -->
           <v-btn
@@ -245,8 +246,8 @@ export default {
     position: absolute;
     top: 11%;
     right: -20%;
-    /*animation: pulse 3s linear reverse infinite;*/
-    /*animation-delay: 3s;*/
+    animation: pulse 3s linear reverse infinite;
+    animation-delay: 3s;
   }
 
   .btn::before{
