@@ -1,10 +1,15 @@
 export const state = () => ({
   user: null,
   userToken: null,
-  userIntra: null
+  userIntra: null,
+  googleUser: false
 })
 
 export const mutations = {
+  check_provider_user(state, provider){
+    if (provider === 'google.com')
+      state.googleUser = true;
+  },
   setUserState(state, authUser){
     state.user = authUser;
   },

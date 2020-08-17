@@ -30,6 +30,11 @@
               color="success"
               small>far fa-eye</v-icon>
       {{ post.views }}
+      <v-spacer></v-spacer>
+      <v-icon class="align-self-center mr-1"
+        color="primary"
+        small>fas fa-user</v-icon>
+      {{ post.intra }}
     </v-card-subtitle>
     <v-card-text :class="{'py-0' : $vuetify.breakpoint.height < 700 ? '200px' : '300px'}">{{ post.desc }}</v-card-text>
     <div class="d-flex flex-no-wrap justify-space-between">

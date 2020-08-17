@@ -1,9 +1,12 @@
 <template style='position: relative'>
-        <v-card width='300' xs-pt-4 style="position: fixed;
-          top: 10%;
-          left: 50%;
-          transform: translate(-50%);
-          z-index:999">
+        <v-card width='300'
+                xs-pt-4
+                :loading="loading"
+                style="position: fixed;
+                  top: 10%;
+                  left: 50%;
+                  transform: translate(-50%);
+                  z-index:999">
           <v-card-title>
             Log in
           </v-card-title>
@@ -21,7 +24,15 @@
            <h1 v-if="error === true" class="display--4">
              {{  }}
            </h1>
-          <v-card-actions>
+          <v-card-actions class="pt-0 mt-0">
+            <v-btn
+              class="pt-0 mt-n6"
+              @click="google_signIn"
+              icon>
+              <v-icon color="primary">fab fa-google</v-icon>
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions class="mt-n3">
             <v-btn color="success"
                     class="mx-auto"
                     @click="signIn">Log me in</v-btn>
@@ -50,12 +61,24 @@
         logIn: '',
         password: '',
         errorMassage: '',
-        error: false
+        error: false,
+        loading: false
       }
     },
     methods: {
+      google_signIn(){
+        this.loading = true;
+
+        let provider = new this.$fireAuthObj.GoogleAuthProvider();
+
+        this.$fireAuth.signInWithPopup(provider).then(function(result){
+          this.$store.commit('logReg/logIn');
+        })
+        .catch(() => alert(error.message))
+      },
       signIn() {
         let email = '';
+        this.loading = true;
 
         this.$fireStore.collection("users")
           .where("intra", "==", this.logIn)

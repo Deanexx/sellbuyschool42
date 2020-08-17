@@ -2,7 +2,7 @@
   <no-ssr>
     <v-app>
 <!--      Navigation drawer-->
-      <v-navigation-drawer :clipped="clipped"
+      <v-navigation-drawer  :clipped="clipped"
                            v-model="drawer"
                            disable-resize-watcher
                            app

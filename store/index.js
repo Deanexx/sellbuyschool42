@@ -17,14 +17,18 @@ export const actions = {
   bindUserWouldLikes: firestoreAction( async function (context) {
     await context.bindFirestoreRef('userWouldLikes', this.$fireStore.collection('wouldLikes').where('user', '==', context.state.auth.userToken), { wait: true });
   }),
-  async onAuthStateChanged(context,  { authUser }){
+  async onAuthStateChanged({commit, dispatch, state},  { authUser }){
     if (!authUser) {
-      context.dispatch('auth/logOutUser');
+      console.log('signOut')
+      dispatch('auth/logOutUser');
     } else {
-      context.dispatch('auth/registerUser', authUser);
-      if(context.state.auth.userIntra === null){
+      dispatch('auth/registerUser', authUser);
+      commit('auth/check_provider_user', this.$fireAuth.currentUser.providerData[0].providerId)
+      if(state.auth.googleUser === true)
+        commit('auth/setUserIntra', authUser.email);
+      if(state.auth.userIntra === null){
         let doc = await this.$fireStore.collection('users').doc(authUser.uid).get();
-        context.commit('auth/setUserIntra', doc.data().intra);
+        commit('auth/setUserIntra', doc.data().intra);
       }
 
     }
