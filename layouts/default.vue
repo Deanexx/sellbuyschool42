@@ -14,16 +14,6 @@
                            display: block;
                             overflow: visible;">
         <!-- Main list -->
-        <v-btn
-          class="btn"
-          v-if="$vuetify.breakpoint.mdAndDown"
-          icon
-          x-large
-          v-ripple="false"
-          :color="!drawer ? 'primary' : 'warning'"
-          @click='drawer = !drawer'>
-          <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
-        </v-btn>
         <v-list :class="{'mt-15' : $vuetify.breakpoint.mdAndDown}">
           <v-list-item-group>
             <v-list-item
@@ -86,6 +76,18 @@
           </v-list-item-group>
         </v-list>
     </v-expand-x-transition>
+<!--      Button for drawer-->
+      <v-btn
+        class="btn"
+        v-if="$vuetify.breakpoint.mdAndDown"
+        icon
+        x-large
+        v-ripple="false"
+        :color="!drawer ? 'primary' : 'warning'"
+        @click='drawer = !drawer'>
+        <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
+      </v-btn>
+<!--     End Button for drawer-->
       <v-img src='/logos/school42.png'
         max-width='40px'
         max-height='40px'
@@ -244,8 +246,8 @@ export default {
 
   .btn{
     position: absolute;
-    top: 11%;
-    right: -20%;
+    top: 111%;
+    left: 20%;
     animation: pulse 3s linear reverse infinite;
     animation-delay: 3s;
   }
