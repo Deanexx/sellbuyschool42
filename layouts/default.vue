@@ -77,9 +77,11 @@
         </v-list>
     </v-expand-x-transition>
 <!--      Button for drawer-->
-      <v-btn
+<transition name='btn' mode='in-out'>
+        <v-btn
         class="btn"
         v-if="$vuetify.breakpoint.mdAndDown"
+        v-show="!drawer"
         icon
         x-large
         v-ripple="false"
@@ -87,6 +89,7 @@
         @click='drawer = !drawer'>
         <v-icon>{{ drawer ? 'far fa-compass' : 'fas fa-compass'}}</v-icon>
       </v-btn>
+</transition>
 <!--     End Button for drawer-->
       <v-img src='/logos/school42.png'
         max-width='40px'
@@ -247,7 +250,7 @@ export default {
   .btn{
     position: absolute;
     top: 111%;
-    left: 20%;
+    left: 5%;
     animation: pulse 3s linear reverse infinite;
     animation-delay: 3s;
   }
@@ -276,6 +279,12 @@ export default {
 
   .list_style:hover{
           color: red !important;
+  }
+  .btn-leave-active{
+    animation:rotate-out-2-cw .3s cubic-bezier(.25,.46,.45,.94) both
+    }
+  .btn-enter-active{
+    animation:rotate-out-2-cw .3s cubic-bezier(.25,.46,.45,.94) both reverse;
   }
 
   .slideInDownInner-enter-active{
@@ -316,4 +325,13 @@ export default {
       transform: scale3d(1, 1, 1);
     }
   }
+
+@keyframes rotate-out-2-cw{
+  0%{
+    transform:rotate(0);
+    opacity:1}
+  100%{
+    transform:rotate(45deg);
+    opacity:0
+    }}
 </style>
